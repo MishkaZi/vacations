@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 // });
 
 //Registration
-router.post('/register', (req, res) => {
+router.post('/', (req, res) => {
   try {
     const userRegistrationDetails = req.body;
     console.log(userRegistrationDetails);
