@@ -23,16 +23,16 @@ const updateVacation = (vacationUpdateDetails, id) => {
     vacationUpdateDetails.arrivalDate != null &&
     vacationUpdateDetails.price != null
   ) {
-    vacationsDao.updateVacation(vacationUpdateDetails, id);
+    return vacationsDao.updateVacation(vacationUpdateDetails, id);
   } else {
     console.log(
-      'You need to enter vacationname and password you want to change'
+      'You need to enter description, destination, image, departure date, arrival date and price!'
     );
   }
 };
 
 const deleteVacation = (id) => {
-  vacationsDao.deleteVacation(id);
+  return vacationsDao.deleteVacation(id);
 };
 
 const validateVacationDetails = (vacationAddDetails) => {

@@ -58,7 +58,8 @@ const updateVacation = async (vacationUpdateDetails, id) => {
   ];
 
   try {
-    await connection.executeWithParameters(sql, parameters);
+    const result = await connection.executeWithParameters(sql, parameters);
+    return result;
   } catch (e) {
     throw console.log(e);
   }
@@ -68,7 +69,8 @@ const deleteVacation = async (id) => {
   let sql = 'DELETE FROM vacations WHERE vacations.id=?;';
 
   try {
-    await connection.executeWithParameters(sql, id);
+    const result = await connection.executeWithParameters(sql, id);
+    return result;
   } catch (e) {
     throw console.log(e);
   }

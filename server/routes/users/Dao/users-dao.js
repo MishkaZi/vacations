@@ -1,7 +1,8 @@
 const connection = require('../../connection-wrapper');
 
 const register = async (userRegistrationDetails) => {
-  let sql = 'INSERT INTO users (username, password,first_name, last_name, is_admin) VALUES (?,?,?,?,?);';
+  let sql =
+    'INSERT INTO users (username, password,first_name, last_name, is_admin) VALUES (?,?,?,?,?);';
 
   let parameters = [
     userRegistrationDetails.username,
@@ -11,12 +12,12 @@ const register = async (userRegistrationDetails) => {
     userRegistrationDetails.isAdmin,
   ];
 
-  let userRegistrationResult;
   try {
-    userRegistrationResult = await connection.executeWithParameters(
+    const userRegistrationResult = await connection.executeWithParameters(
       sql,
       parameters
     );
+    return userRegistrationResult;
   } catch (e) {
     throw console.log(e);
   }
@@ -50,7 +51,8 @@ const update = async (userUpdateDetails, id) => {
   let parameters = [userUpdateDetails.username, userUpdateDetails.password, id];
 
   try {
-    await connection.executeWithParameters(sql, parameters);
+    const result = await connection.executeWithParameters(sql, parameters);
+    return result;
   } catch (e) {
     throw console.log(e);
   }
@@ -60,7 +62,8 @@ const deleteUser = async (id) => {
   let sql = 'DELETE FROM users WHERE users.id=?;';
 
   try {
-    await connection.executeWithParameters(sql, id);
+    const result = await connection.executeWithParameters(sql, id);
+    return result;
   } catch (e) {
     throw console.log(e);
   }

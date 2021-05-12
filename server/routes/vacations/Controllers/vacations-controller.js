@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
   try {
     const vacationAddDetails = req.body;
     const result = await vacationsLogic.addVacation(vacationAddDetails);
-
+    console.log(result);
     res.json('Vacation has been added - Using this response to stop postman');
   } catch (error) {
     console.log(error);
@@ -19,6 +19,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const vacations = await vacationsLogic.getAllVacations();
+    
     res.json(vacations);
   } catch (error) {
     console.log(error);
@@ -38,12 +39,15 @@ router.get('/:id', async (req, res) => {
 });
 
 //Update vacation
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const vacationUpdateDetails = req.body;
     const id = req.params.id;
-    vacationsLogic.updateVacation(vacationUpdateDetails, id);
-
+    const result = await vacationsLogic.updateVacation(
+      vacationUpdateDetails,
+      id
+    );
+    console.log(result);
     //Using this response to stop postman
     res.json('vacation was updated -  Using this response to stop postman');
   } catch (error) {
@@ -52,11 +56,12 @@ router.put('/:id', (req, res) => {
 });
 
 //Delete
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     console.log(id);
-    vacationsLogic.deleteVacation(id);
+    const result = await vacationsLogic.deleteVacation(id);
+    console.log(result);
 
     //Using this response to stop postman
     res.json('vacation deleted - Using this response to stop postman');

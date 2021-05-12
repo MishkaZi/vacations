@@ -37,10 +37,11 @@ router.get('/:id', async (req, res) => {
 // });
 
 //Registration
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const userRegistrationDetails = req.body;
-    usersLogic.register(userRegistrationDetails);
+    const result = await usersLogic.register(userRegistrationDetails);
+    console.log(result);
 
     res.json('User was added -  Using this response to stop postman');
   } catch (error) {
@@ -49,11 +50,12 @@ router.post('/', (req, res) => {
 });
 
 //Update
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const userUpdateDetails = req.body;
     const id = req.params.id;
-    usersLogic.update(userUpdateDetails, id);
+    const result = await usersLogic.update(userUpdateDetails, id);
+    console.log(result);
 
     res.json('User was updated -  Using this response to stop postman');
   } catch (error) {
@@ -62,10 +64,11 @@ router.put('/:id', (req, res) => {
 });
 
 //Delete
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    usersLogic.deleteUser(id);
+    const result = await usersLogic.deleteUser(id);
+    console.log(result);
 
     res.json('User was deleted -  Using this response to stop postman');
   } catch (error) {

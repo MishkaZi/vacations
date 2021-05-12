@@ -3,7 +3,7 @@ const usersDao = require('../Dao/users-dao');
 const register = (userRegistrationDetails) => {
   //validations
   validateUserDetails(userRegistrationDetails);
-  usersDao.register(userRegistrationDetails);
+  return usersDao.register(userRegistrationDetails);
 };
 
 const getOneUser = (id) => {
@@ -21,14 +21,14 @@ const update = (userUpdateDetails, id) => {
     userUpdateDetails.firstName != null &&
     userUpdateDetails.lastName != null
   ) {
-    usersDao.update(userUpdateDetails, id);
+    return usersDao.update(userUpdateDetails, id);
   } else {
     console.log('You need to enter username and password you want to change');
   }
 };
 
 const deleteUser = (id) => {
-  usersDao.deleteUser(id);
+  return usersDao.deleteUser(id);
 };
 
 const validateUserDetails = (userRegistrationDetails) => {
