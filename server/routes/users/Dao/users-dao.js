@@ -1,7 +1,7 @@
-const connection = require('./connection-wrapper');
+const connection = require('../../connection-wrapper');
 
 const register = async (userRegistrationDetails) => {
-  let sql = 'INSERT INTO users (username, password) VALUES (?,?,?,?,?);';
+  let sql = 'INSERT INTO users (username, password,first_name, last_name, is_admin) VALUES (?,?,?,?,?);';
 
   let parameters = [
     userRegistrationDetails.username,

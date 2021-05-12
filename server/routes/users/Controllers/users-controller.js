@@ -40,9 +40,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', (req, res) => {
   try {
     const userRegistrationDetails = req.body;
-    console.log(userRegistrationDetails);
     usersLogic.register(userRegistrationDetails);
-    res.json('all good');
+
+    res.json('User was added -  Using this response to stop postman');
   } catch (error) {
     console.log(error);
   }
@@ -53,10 +53,9 @@ router.put('/:id', (req, res) => {
   try {
     const userUpdateDetails = req.body;
     const id = req.params.id;
+    usersLogic.update(userUpdateDetails, id);
 
-    console.log(userUpdateDetails, id);
-    usersLogic.update(userUpdateDetails,id);
-    res.json('User was updated');
+    res.json('User was updated -  Using this response to stop postman');
   } catch (error) {
     console.log(error);
   }
@@ -66,9 +65,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
     usersLogic.deleteUser(id);
-    res.json('User deleted');
+
+    res.json('User was deleted -  Using this response to stop postman');
   } catch (error) {
     console.log(error);
   }
