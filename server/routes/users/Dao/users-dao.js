@@ -23,6 +23,22 @@ const register = async (userRegistrationDetails) => {
   }
 };
 
+const login = async (userLoginDetails) => {
+  let sql = 'select * from users where users.username=?';
+
+  let parameters = [userLoginDetails.username];
+
+  try {
+    const userRegistrationResult = await connection.executeWithParameters(
+      sql,
+      parameters
+    );
+    return userRegistrationResult;
+  } catch (e) {
+    throw console.log(e);
+  }
+};
+
 const getOneUser = async (id) => {
   let sql = 'SELECT * FROM users WHERE users.id=?;';
 
@@ -69,4 +85,11 @@ const deleteUser = async (id) => {
   }
 };
 
-module.exports = { register, getOneUser, getAllUsers, deleteUser, update };
+module.exports = {
+  register,
+  login,
+  getOneUser,
+  getAllUsers,
+  deleteUser,
+  update,
+};

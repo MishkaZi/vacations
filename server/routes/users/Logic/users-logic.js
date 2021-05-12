@@ -6,6 +6,12 @@ const register = (userRegistrationDetails) => {
   return usersDao.register(userRegistrationDetails);
 };
 
+const login = (userLoginDetails) => {
+  //validations
+  validateUserDetails(userLoginDetails);
+  return usersDao.login(userLoginDetails);
+};
+
 const getOneUser = (id) => {
   return usersDao.getOneUser(id);
 };
@@ -31,9 +37,16 @@ const deleteUser = (id) => {
   return usersDao.deleteUser(id);
 };
 
-const validateUserDetails = (userRegistrationDetails) => {
+const validateUserDetails = (userDetails) => {
   //validations
-  console.log('validations good', userRegistrationDetails);
+  console.log('validations good', userDetails);
 };
 
-module.exports = { register, getOneUser, getAllUsers, deleteUser, update };
+module.exports = {
+  register,
+  login,
+  getOneUser,
+  getAllUsers,
+  deleteUser,
+  update,
+};

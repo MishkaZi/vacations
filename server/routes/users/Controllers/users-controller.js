@@ -3,6 +3,32 @@ const usersLogic = require('../Logic/users-logic');
 
 const router = express.Router();
 
+//Login
+router.post('/login', async(req, res) => {
+  try {
+    const userLoginDetails = req.body;
+    const result= await usersLogic.login(userLoginDetails);
+    console.log(result);
+
+    res.json('User loged in -  Using this response to stop postman');
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Registration
+router.post('/', async (req, res) => {
+  try {
+    const userRegistrationDetails = req.body;
+    const result = await usersLogic.register(userRegistrationDetails);
+    console.log(result);
+
+    res.json('User was added -  Using this response to stop postman');
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //Get all users
 router.get('/', async (req, res) => {
   try {
@@ -19,31 +45,6 @@ router.get('/:id', async (req, res) => {
     const id = req.params.id;
     const result = await usersLogic.getOneUser(id);
     res.json(result);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-// //Login
-// router.post('/login', (req, res) => {
-//   try {
-//     const userRegistrationDetails = req.body;
-//     console.log(userRegistrationDetails);
-//     usersLogic.register(userRegistrationDetails);
-//     res.json('all good');
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
-//Registration
-router.post('/', async (req, res) => {
-  try {
-    const userRegistrationDetails = req.body;
-    const result = await usersLogic.register(userRegistrationDetails);
-    console.log(result);
-
-    res.json('User was added -  Using this response to stop postman');
   } catch (error) {
     console.log(error);
   }
