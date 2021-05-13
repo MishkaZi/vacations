@@ -17,9 +17,10 @@ const register = async (userRegistrationDetails) => {
       sql,
       parameters
     );
-    return userRegistrationResult;
-  } catch (e) {
-    throw console.log(e);
+    return userRegistrationResult.insertId;
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
   }
 };
 

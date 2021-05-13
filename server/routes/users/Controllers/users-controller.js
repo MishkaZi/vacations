@@ -3,6 +3,20 @@ const usersLogic = require('../Logic/users-logic');
 
 const router = express.Router();
 
+//Registration
+router.post('/', async (req, res) => {
+  try {
+    const userRegistrationDetails = req.body;
+    const userId = await usersLogic.register(userRegistrationDetails);
+    console.log(userId);
+
+    res.json('User was added -  Using this response to stop postman');
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
 //Login
 router.post('/login', async (req, res) => {
   try {
@@ -17,19 +31,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//Registration
-router.post('/', async (req, res) => {
-  try {
-    const userRegistrationDetails = req.body;
-    const result = await usersLogic.register(userRegistrationDetails);
-    console.log(result);
-
-    res.json('User was added -  Using this response to stop postman');
-  } catch (error) {
-    console.log(error);
-    res.json(error);
-  }
-});
 
 //Get all users
 router.get('/', async (req, res) => {
