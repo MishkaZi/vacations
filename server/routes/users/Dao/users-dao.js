@@ -23,6 +23,27 @@ const register = async (userRegistrationDetails) => {
   }
 };
 
+const isUsernameExist = async (username) => {
+  let sql = 'SELECT username FROM users WHERE username = ?;';
+  console.log(username);
+  let parameters = [username];
+
+  const userExistResult = await connection.executeWithParameters(
+    sql,
+    parameters
+  );
+
+  console.log('userExistResult: ' + userExistResult);
+
+  if (userExistResult == null || userExistResult.length === 0) {
+    console.log('doesnt exist');
+    return false;
+  }
+  console.log('exist');
+
+  return true;
+};
+
 const login = async (userLoginDetails) => {
   let sql = 'select * from users where users.username=?';
 
@@ -92,4 +113,5 @@ module.exports = {
   getAllUsers,
   deleteUser,
   update,
+  isUsernameExist,
 };

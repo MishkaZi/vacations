@@ -20,15 +20,11 @@ export default function Login() {
         userName,
         password,
       });
-      
-      console.log(response);
 
+      console.log(response);
     } catch (error) {
       console.log(error);
-      
     }
-    
-    
   };
 
   return (
