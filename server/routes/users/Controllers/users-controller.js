@@ -12,25 +12,24 @@ router.post('/', async (req, res) => {
 
     res.json('User was added -  Using this response to stop postman');
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    console.log('Error:', error);
+    res.status(600);
   }
 });
 
 //Login
 router.post('/login', async (req, res) => {
-  try {
-    const userLoginDetails = req.body;
-    const result = await usersLogic.login(userLoginDetails);
-    console.log(result);
+  const userLoginDetails = req.body;
 
-    res.json('User loged in -  Using this response to stop postman');
+  try {
+    const userData = await usersLogic.login(userLoginDetails);
+    // Send logged users token to client
+    res.json(userData);
   } catch (error) {
     console.log(error);
-    res.json(error);
+    res.status(600).json(error);
   }
 });
-
 
 //Get all users
 router.get('/', async (req, res) => {

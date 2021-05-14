@@ -1,5 +1,13 @@
 const usersDao = require('../Dao/users-dao');
+const cacheModule = require('../../cache-module');
 
+const jwt = require('jsonwebtoken');
+const config = require('../../../config.json');
+
+const RIGHT_SALT = 'ksdjfhbAWEDCAS29!@$addlkmn';
+const LEFT_SALT = '32577098ASFKJkjsdhfk#$dc';
+
+//Register
 const register = async (userRegistrationDetails) => {
   //validations
   validateUserDoesNotExist(userRegistrationDetails);
@@ -8,10 +16,24 @@ const register = async (userRegistrationDetails) => {
   return await usersDao.register(userRegistrationDetails);
 };
 
+//Login
 const login = async (userLoginDetails) => {
   //validations
   validateUserDetails(userLoginDetails);
-  return await usersDao.login(userLoginDetails);
+
+  const userData = await usersDao.login(userLoginDetails);
+
+  const saltedUserName = LEFT_SALT + userLoginDetails.username + RIGHT_SALT;
+
+  //Creating jwt token with salted username and secret from config file.
+  const jwtToken = jwt.sign({ sub: saltedUserName }, config.secret);
+
+  //Saving in cache userData with taken as key.
+  cacheModule.set(jwtToken, userData);
+
+  //returning to controller token as object
+  const successfullLoginResponse = { token: jwtToken };
+  return successfullLoginResponse;
 };
 
 const getOneUser = async (id) => {
@@ -41,10 +63,10 @@ const validateUserDoesNotExist = async (userDetails) => {
 
 const validateUserDetails = (userDetails) => {
   //validations
-  console.log('validations good', userDetails);
+  console.log('Login details', userDetails);
   //Username
   if (userDetails.username == null) {
-    throw new Error('Username null!');
+    throw new Error('username null!');
   }
 
   if (!isEmailFormat(userDetails.username)) {

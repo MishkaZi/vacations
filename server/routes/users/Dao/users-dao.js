@@ -1,5 +1,29 @@
 const connection = require('../../connection-wrapper');
 
+//Login
+const login = async (userLoginDetails) => {
+  let sql = 'SELECT * FROM users WHERE username=? AND password=?;';
+
+  let parameters = [userLoginDetails.username, userLoginDetails.password];
+
+  try {
+    const userLoginResult = await connection.executeWithParameters(
+      sql,
+      parameters
+    );
+    //Check if username and password match ones in DB
+    if (userLoginResult == null || userLoginResult.length == 0) {
+      throw new Error('Unauthorized!');
+    }
+
+    return userLoginResult[0];
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
+  }
+};
+
+//Register
 const register = async (userRegistrationDetails) => {
   let sql =
     'INSERT INTO users (username, password,first_name, last_name, is_admin) VALUES (?,?,?,?,?);';
@@ -24,6 +48,7 @@ const register = async (userRegistrationDetails) => {
   }
 };
 
+//Helping function
 const isUsernameExist = async (username) => {
   let sql = 'SELECT username FROM users WHERE username = ?;';
   console.log(username);
@@ -45,30 +70,15 @@ const isUsernameExist = async (username) => {
   return true;
 };
 
-const login = async (userLoginDetails) => {
-  let sql = 'select * from users where users.username=?';
-
-  let parameters = [userLoginDetails.username];
-
-  try {
-    const userRegistrationResult = await connection.executeWithParameters(
-      sql,
-      parameters
-    );
-    return userRegistrationResult;
-  } catch (e) {
-    throw console.log(e);
-  }
-};
-
 const getOneUser = async (id) => {
   let sql = 'SELECT * FROM users WHERE users.id=?;';
 
   try {
     userDetails = await connection.executeWithParameters(sql, id);
     return userDetails;
-  } catch (e) {
-    throw console.log(e);
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
   }
 };
 
@@ -78,8 +88,9 @@ const getAllUsers = async () => {
   try {
     usersDetails = await connection.executeWithParameters(sql);
     return usersDetails;
-  } catch (e) {
-    throw console.log(e);
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
   }
 };
 
@@ -91,8 +102,9 @@ const update = async (userUpdateDetails, id) => {
   try {
     const result = await connection.executeWithParameters(sql, parameters);
     return result;
-  } catch (e) {
-    throw console.log(e);
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
   }
 };
 
@@ -102,8 +114,9 @@ const deleteUser = async (id) => {
   try {
     const result = await connection.executeWithParameters(sql, id);
     return result;
-  } catch (e) {
-    throw console.log(e);
+  } catch (error) {
+    console.log(error);
+    throw new Error('General error');
   }
 };
 
