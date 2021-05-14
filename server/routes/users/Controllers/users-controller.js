@@ -4,21 +4,18 @@ const usersLogic = require('../Logic/users-logic');
 const router = express.Router();
 
 //Registration
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const userRegistrationDetails = req.body;
     const userId = await usersLogic.register(userRegistrationDetails);
-    console.log(userId);
-
-    res.json('User was added -  Using this response to stop postman');
+    res.json(userId);
   } catch (error) {
-    console.log('Error:', error);
-    res.status(600);
+    return next(error);
   }
 });
 
 //Login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   const userLoginDetails = req.body;
 
   try {
@@ -26,36 +23,33 @@ router.post('/login', async (req, res) => {
     // Send logged users token to client
     res.json(userData);
   } catch (error) {
-    console.log(error);
-    res.status(600).json(error);
+    return next(error);
   }
 });
 
 //Get all users
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await usersLogic.getAllUsers();
     res.json(users);
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    return next(error);
   }
 });
 
 //Get one user
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const result = await usersLogic.getOneUser(id);
     res.json(result);
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    return next(error);
   }
 });
 
 //Update
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const userUpdateDetails = req.body;
     const id = req.params.id;
@@ -64,13 +58,12 @@ router.put('/:id', async (req, res) => {
 
     res.json('User was updated -  Using this response to stop postman');
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    return next(error);
   }
 });
 
 //Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const result = await usersLogic.deleteUser(id);
@@ -78,8 +71,7 @@ router.delete('/:id', async (req, res) => {
 
     res.json('User was deleted -  Using this response to stop postman');
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    return next(error);
   }
 });
 

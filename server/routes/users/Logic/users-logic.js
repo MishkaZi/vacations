@@ -1,11 +1,15 @@
 const usersDao = require('../Dao/users-dao');
 const cacheModule = require('../../cache-module');
 
+let ServerError = require('../../../middleware/errors/server-error');
+let ErrorType = require('../../../middleware/errors/error-type');
+
 const jwt = require('jsonwebtoken');
 const config = require('../../../config.json');
+const crypto = require('crypto');
 
-const RIGHT_SALT = 'ksdjfhbAWEDCAS29!@$addlkmn';
-const LEFT_SALT = '32577098ASFKJkjsdhfk#$dc';
+const RIGHT_SALT = 'adfnsadkubgasdbvasndklgvnearugbasjkad';
+const LEFT_SALT = '389462365034758934756238406523';
 
 //Register
 const register = async (userRegistrationDetails) => {
@@ -13,22 +17,36 @@ const register = async (userRegistrationDetails) => {
   validateUserDoesNotExist(userRegistrationDetails);
   validateUserDetails(userRegistrationDetails);
 
-  return await usersDao.register(userRegistrationDetails);
+  //Hashing password for security
+  userRegistrationDetails.password = crypto
+    .createHash('md5')
+    .update(LEFT_SALT + userRegistrationDetails.password + RIGHT_SALT)
+    .digest('hex');
+
+  const usersId = await usersDao.register(userRegistrationDetails);
+  return usersId;
 };
 
 //Login
 const login = async (userLoginDetails) => {
-  //validations
+  //validation
   validateUserDetails(userLoginDetails);
+
+  //Hashing password of user that trying to login
+  userLoginDetails.password = crypto
+    .createHash('md5')
+    .update(LEFT_SALT + userLoginDetails.password + RIGHT_SALT)
+    .digest('hex');
 
   const userData = await usersDao.login(userLoginDetails);
 
+  //Salting username
   const saltedUserName = LEFT_SALT + userLoginDetails.username + RIGHT_SALT;
 
   //Creating jwt token with salted username and secret from config file.
   const jwtToken = jwt.sign({ sub: saltedUserName }, config.secret);
 
-  //Saving in cache userData with taken as key.
+  //Saving in cache userData with token as key.
   cacheModule.set(jwtToken, userData);
 
   //returning to controller token as object
@@ -54,39 +72,56 @@ const deleteUser = (id) => {
   return usersDao.deleteUser(id);
 };
 
+//Validations
 const validateUserDoesNotExist = async (userDetails) => {
   if (await usersDao.isUsernameExist(userDetails.username)) {
-    console.log('user does exist');
-    throw new Error('This username already in database');
+    throw new ServerError(ErrorType.USER_NAME_ALREADY_EXIST);
   }
 };
 
 const validateUserDetails = (userDetails) => {
-  //validations
-  console.log('Login details', userDetails);
   //Username
   if (userDetails.username == null) {
-    throw new Error('username null!');
+    throw new ServerError(
+      ErrorType.FAILED_VALIDATION,
+      'Username empty!',
+      'Username empty!'
+    );
   }
 
   if (!isEmailFormat(userDetails.username)) {
-    throw new Error('Username not email format!');
+    throw new ServerError(
+      ErrorType.FAILED_VALIDATION,
+      'Username not email format!',
+      'Username not email format!'
+    );
   }
 
   //Password
   if (userDetails.password == null) {
-    throw new Error('Password null!');
+    throw new ServerError(
+      ErrorType.FAILED_VALIDATION,
+      'Password empty!',
+      'Password empty!'
+    );
   }
 
   if (userDetails.password.length < 6) {
-    throw new Error('Password too short');
+    throw (
+      (new ServerError(ErrorType.FAILED_VALIDATION, 'Password too short'),
+      'Password too short')
+    );
   }
 
   if (userDetails.password.length > 12) {
-    throw new Error('Password too long');
+    throw new ServerError(
+      ErrorType.FAILED_VALIDATION,
+      'Password too long',
+      'Password too long'
+    );
   }
 };
-
+//Helping function to check if username in email format
 const isEmailFormat = (username) => {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

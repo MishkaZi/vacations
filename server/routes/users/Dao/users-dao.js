@@ -1,4 +1,6 @@
 const connection = require('../../connection-wrapper');
+let ServerError = require('../../../middleware/errors/server-error');
+let ErrorType = require('../../../middleware/errors/error-type');
 
 //Login
 const login = async (userLoginDetails) => {
@@ -13,13 +15,16 @@ const login = async (userLoginDetails) => {
     );
     //Check if username and password match ones in DB
     if (userLoginResult == null || userLoginResult.length == 0) {
-      throw new Error('Unauthorized!');
+      throw new ServerError(ErrorType.UNAUTHORIZED);
     }
 
     return userLoginResult[0];
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(
+      ErrorType.GENERAL_ERROR,
+      JSON.stringify(userLoginDetails),
+      error
+    );
   }
 };
 
@@ -43,31 +48,31 @@ const register = async (userRegistrationDetails) => {
     );
     return userRegistrationResult.insertId;
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
 //Helping function
 const isUsernameExist = async (username) => {
   let sql = 'SELECT username FROM users WHERE username = ?;';
-  console.log(username);
   let parameters = [username];
 
-  const userExistResult = await connection.executeWithParameters(
-    sql,
-    parameters
-  );
+  try {
+    const userExistResult = await connection.executeWithParameters(
+      sql,
+      parameters
+    );
 
-  console.log('userExistResult: ' + userExistResult);
+    if (userExistResult == null || userExistResult.length === 0) {
+      // console.log('doesnt exist');
+      return false;
+    }
+    // console.log('exist');
 
-  if (userExistResult == null || userExistResult.length === 0) {
-    console.log('doesnt exist');
-    return false;
+    return true;
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
-  console.log('exist');
-
-  return true;
 };
 
 const getOneUser = async (id) => {
@@ -77,8 +82,7 @@ const getOneUser = async (id) => {
     userDetails = await connection.executeWithParameters(sql, id);
     return userDetails;
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -89,8 +93,7 @@ const getAllUsers = async () => {
     usersDetails = await connection.executeWithParameters(sql);
     return usersDetails;
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -103,8 +106,7 @@ const update = async (userUpdateDetails, id) => {
     const result = await connection.executeWithParameters(sql, parameters);
     return result;
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -115,8 +117,7 @@ const deleteUser = async (id) => {
     const result = await connection.executeWithParameters(sql, id);
     return result;
   } catch (error) {
-    console.log(error);
-    throw new Error('General error');
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 

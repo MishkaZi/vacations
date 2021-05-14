@@ -3,7 +3,6 @@ const config = require('../config.json');
 
 // Extracting the text from the secret's JSON
 const { secret } = config;
-console.log('Secret: '+ secret);
 
 const authenticateJwtRequestToken = () => {
   // Load secret into
@@ -12,7 +11,7 @@ const authenticateJwtRequestToken = () => {
       // public routes that don't require authentication
       '/users/login',
       '/users/register',
-      '/users/forgotPassword',
+      // '/users/forgotPassword',
     ],
   });
 };

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export default function Login() {
-  const [userName, setUserName] = useState('');
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   const onUserNameChanged = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ export default function Login() {
   const onLoginClicked = async () => {
     try {
       const response = await axios.post('http://localhost:3001/users/login', {
-        userName,
+        username,
         password,
       });
 
