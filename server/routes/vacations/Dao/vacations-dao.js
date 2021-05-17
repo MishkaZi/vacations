@@ -14,21 +14,13 @@ const addVacation = async (vacationAddDetails) => {
   ];
 
   try {
-    const result = await connection.executeWithParameters(sql, parameters);
-    return result;
-  } catch (e) {
-    throw console.log(e);
-  }
-};
-
-const getAllVacations = async () => {
-  let sql = 'SELECT * FROM vacations;';
-
-  try {
-    const vacationsDetails = await connection.executeWithParameters(sql);
-    return vacationsDetails;
-  } catch (e) {
-    throw console.log(e);
+    const vacationDetails = await connection.executeWithParameters(
+      sql,
+      parameters
+    );
+    return vacationDetails.insertId;
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -38,8 +30,19 @@ const getOneVacation = async (id) => {
   try {
     const vacationDetails = await connection.executeWithParameters(sql, id);
     return vacationDetails;
-  } catch (e) {
-    throw console.log(e);
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
+  }
+};
+
+const getAllVacations = async () => {
+  let sql = 'SELECT * FROM vacations;';
+
+  try {
+    const vacationsDetails = await connection.executeWithParameters(sql);
+    return vacationsDetails;
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -58,10 +61,10 @@ const updateVacation = async (vacationUpdateDetails, id) => {
   ];
 
   try {
-    const result = await connection.executeWithParameters(sql, parameters);
-    return result;
-  } catch (e) {
-    throw console.log(e);
+    const updatedId = await connection.executeWithParameters(sql, parameters);
+    return updatedId.insertId;
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 
@@ -69,10 +72,10 @@ const deleteVacation = async (id) => {
   let sql = 'DELETE FROM vacations WHERE vacations.id=?;';
 
   try {
-    const result = await connection.executeWithParameters(sql, id);
-    return result;
-  } catch (e) {
-    throw console.log(e);
+    const deletedId = await connection.executeWithParameters(sql, id);
+    return deletedId.insertId;
+  } catch (error) {
+    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
   }
 };
 

@@ -64,10 +64,10 @@ const isUsernameExist = async (username) => {
     );
 
     if (userExistResult == null || userExistResult.length === 0) {
-      // console.log('doesnt exist');
+      console.log('doesnt exist');
       return false;
     }
-    // console.log('exist');
+    console.log('exist');
 
     return true;
   } catch (error) {
@@ -79,7 +79,7 @@ const getOneUser = async (id) => {
   let sql = 'SELECT * FROM users WHERE users.id=?;';
 
   try {
-    userDetails = await connection.executeWithParameters(sql, id);
+    const userDetails = await connection.executeWithParameters(sql, id);
     return userDetails;
   } catch (error) {
     throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
@@ -90,7 +90,7 @@ const getAllUsers = async () => {
   let sql = 'SELECT * FROM users;';
 
   try {
-    usersDetails = await connection.executeWithParameters(sql);
+    const usersDetails = await connection.executeWithParameters(sql);
     return usersDetails;
   } catch (error) {
     throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
