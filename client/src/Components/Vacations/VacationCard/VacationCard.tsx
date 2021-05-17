@@ -1,10 +1,17 @@
-import React from "react";
-import "./VacationCard.css";
+import React from 'react';
+import { VacationModel } from '../VacationModel';
+import './VacationCard.css';
 
-const VacationCard = (): JSX.Element => {
+const VacationCard = ({vacation}: any): JSX.Element => {
   return (
-    <div className="vacation-card">
-        <h1>VACATION CARD !</h1>
+    <div className='vacation-card'>
+      <p>Image: {vacation.image}</p>
+      <p>Description: {vacation.description}</p>
+      <p>
+        Departure and arrival dates: {vacation.departureDate} -{' '}
+        {vacation.arrivalDate}
+      </p>
+      <p>Price: {vacation.price}</p>
     </div>
   );
 };
