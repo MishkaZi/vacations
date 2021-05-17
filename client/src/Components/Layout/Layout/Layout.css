@@ -11,7 +11,7 @@
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 5% 90% 5%;
+    grid-template-rows: 10% 85% 5%;
   }
   
   .Layout,
@@ -25,11 +25,11 @@
   }
   
   .Layout > aside {
-    grid-column: span 2;
+    grid-column: span 1;
   }
   
   .Layout > main {
-    grid-column: span 10;
+    grid-column: span 11;
     overflow: scroll;
   }
   

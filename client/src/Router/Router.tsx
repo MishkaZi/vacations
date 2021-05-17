@@ -1,10 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
 
-import {Register} from '../Components/Auth/Register/register';
-import {Login} from '../Components/Auth/Login/login';
-import { LayoutComponent } from '../Components/Layout/Layout';
+import { Register } from '../Components/Auth/Register/register';
+import { Login } from '../Components/Auth/Login/login';
+import { LayoutComponent } from '../Components/Layout/Layout/Layout';
 
 const authenticated = true;
 const isAdmin = false;
@@ -23,16 +22,14 @@ const PrivateRoute = ({ component, ...rest }: any) => {
 
 const Routing = () => {
   return (
-    <BrowserRouter>
-      <>
-        <Switch>
-          <Route path='/' exact component={Login} />
-          {/* <Route path='/login' exact component={Login} /> */}
-          <PrivateRoute path='/home' exact component={LayoutComponent} />
-          <Route path='/register' exact component={Register} />
-        </Switch>
-      </>
-    </BrowserRouter>
+    <>
+      <Switch>
+        <Route path='/' exact component={Login} />
+        {/* <Route path='/login' exact component={Login} /> */}
+        <PrivateRoute path='/home' exact component={LayoutComponent} />
+        <Route path='/register' exact component={Register} />
+      </Switch>
+    </>
   );
 };
 export default Routing;
