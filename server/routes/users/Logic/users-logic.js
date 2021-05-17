@@ -15,9 +15,6 @@ const LEFT_SALT = '389462365034758934756238406523';
 const register = async (userRegistrationDetails) => {
   //validations
   validateUserDoesNotExist(userRegistrationDetails);
-  console.log(
-    'This happens after validateUserDoesNotExist(userRegistrationDetails);'
-  );
   validateUserDetails(userRegistrationDetails);
 
   //Hashing password for security
