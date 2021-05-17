@@ -1,5 +1,4 @@
 import React from 'react';
-import { VacationModel } from '../VacationModel';
 import './VacationCard.css';
 
 const VacationCard = ({vacation}: any): JSX.Element => {

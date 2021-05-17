@@ -6,7 +6,7 @@ const Header = (): JSX.Element => {
   return (
     <div className="Header">
       <Logo />
-      <h1>Mission Controll</h1>
+      <h1>Vacations Website</h1>
     </div>
   );
 };

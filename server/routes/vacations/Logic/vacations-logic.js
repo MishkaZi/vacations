@@ -48,11 +48,11 @@ const validateVacationDetails = (vacationAddDetails) => {
     );
   }
 
-  if (vacationAddDetails.image == null) {
+  if (!validURL) {
     throw new ServerError(
       ErrorType.INVALID_VACATION_DETAILS,
-      'Image path cant be empty',
-      'Image path cant be empty'
+      'Not valid URL for image!',
+      'Not valid URL for image!'
     );
   }
 
@@ -79,6 +79,20 @@ const validateVacationDetails = (vacationAddDetails) => {
       'Price cant be empty'
     );
   }
+};
+
+//Check if image is a valid URL
+const validURL = (string) => {
+  var pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
+  ); // fragment locator
+  return !!pattern.test(string);
 };
 
 module.exports = {

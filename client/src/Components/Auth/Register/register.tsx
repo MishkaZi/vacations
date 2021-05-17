@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
-import { createAccount } from '../redux/actions';
-import { useDispatch } from 'react-redux';
+// import { createAccount } from '../redux/actions';
+// import { useDispatch } from 'react-redux';
+import Axios from 'axios';
 
 export const Register = () => {
   const {
@@ -12,17 +13,34 @@ export const Register = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const [user, setUser] = useState<UsersModel[]>();
 
-  const submit = async (data: UsersModel) => {
-    console.log(data);
+  const registerUser = async (user: UsersModel) => {
     try {
-      dispatch(createAccount(data));
-      history.push('/login');
+      const userData = await Axios.post('http://localhost:3001/users/', user);
+      console.log(userData.data);
+
+      setUser(userData.data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // useEffect(() => {
+  //   registerUser();
+  // },[ user]);
+
+  // const history = useHistory();
+  // const dispatch = useDispatch();
+
+  const submit = async (data: UsersModel) => {
+    // try {
+    //   dispatch(createAccount(data));
+    //   history.push('/login');
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    registerUser(data);
   };
 
   return (
