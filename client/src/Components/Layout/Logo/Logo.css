@@ -1,8 +1,9 @@
 .Logo {
-    padding: 3px 0;
+    padding:  0;
     position: fixed;
     height: 10%;
     left: 10px;
+    top: -9px;
     background: transparent;
 }
 

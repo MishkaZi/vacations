@@ -6,6 +6,8 @@ const Menu = (): JSX.Element => {
   return (
     <div className="Menu">
       <NavLink to="/home">Home</NavLink>
+      {/* Temporary */}
+      <NavLink to="/">Logout</NavLink>
 
     </div>
   );

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
 // import { createAccount } from '../redux/actions';
 // import { useDispatch } from 'react-redux';
+import './register.css'
 import Axios from 'axios';
 
 export const Register = () => {
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -20,7 +22,10 @@ export const Register = () => {
       const userData = await Axios.post('http://localhost:3001/users/', user);
       console.log(userData.data);
 
+      //Register user id
       setUser(userData.data);
+
+      history.push('/login');
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +35,6 @@ export const Register = () => {
   //   registerUser();
   // },[ user]);
 
-  // const history = useHistory();
   // const dispatch = useDispatch();
 
   const submit = async (data: UsersModel) => {
@@ -44,12 +48,13 @@ export const Register = () => {
   };
 
   return (
-    <>
+    <div className='register'>
       <h3>Register please:</h3>
       <form onSubmit={handleSubmit(submit)}>
         <div>
-          <label>Username:</label>
           <input
+            placeholder='Username: '
+            type='email'
             {...register('username', {
               required: true,
               pattern: {
@@ -66,9 +71,9 @@ export const Register = () => {
           )}
         </div>
         <div>
-          <label>Password:</label>
-
           <input
+            placeholder='Password: '
+            type='password'
             {...register('password', {
               required: true,
               minLength: {
@@ -90,80 +95,29 @@ export const Register = () => {
         </div>
 
         <div>
-          <label>First Name:</label>
-          <input {...register('firstName', { required: true })} />
+          <input
+            placeholder='First name: '
+            type='text'
+            {...register('firstName', { required: true })}
+          />
           {errors.firstName && (
             <span className='err-msg'>Missing firstName</span>
           )}
         </div>
 
         <div>
-          <label>Last Name:</label>
-          <input {...register('lastName', { required: true })} />
+          <input
+            placeholder='Last name: '
+            type='text'
+            {...register('lastName', { required: true })}
+          />
           {errors.lastName && <span className='err-msg'>Missing lastName</span>}
         </div>
 
-        <button>Register</button>
+        <button type="submit">Register</button>
       </form>
 
-      <Link to='/'>If you have account - Login</Link>
-    </>
+      <Link className='link' to='/'>If you have account - Login</Link>
+    </div>
   );
 };
-
-// import { ChangeEvent } from 'react';
-// import { useState } from 'react';
-// import axios from 'axios';
-
-// export default function Register() {
-//   const [username, setUserName] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   const onUserNameChanged = (event: ChangeEvent<HTMLInputElement>) => {
-//     setUserName(event.target.value);
-//   };
-
-//   const onPasswordChanged = (event: ChangeEvent<HTMLInputElement>) => {
-//     setPassword(event.target.value);
-//   };
-
-//   const onRegisterClicked = async () => {
-//     try {
-//       const response = await axios.post('http://localhost:3001/users/', {
-//         username,
-//         password,
-//       });
-
-//       console.log('Catched response: ' + response);
-//     } catch (error) {
-//       console.log('Catched error: ' + JSON.stringify(error.response));
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <input
-//         type='text'
-//         name='username'
-//         placeholder='User name'
-//         onChange={onUserNameChanged}
-//       />
-//       <br />
-//       <input
-//         type='password'
-//         name='password'
-//         placeholder='Password'
-//         onChange={onPasswordChanged}
-//       />
-//       <br />
-
-//       <input
-//         type='button'
-//         value='Register'
-//         name='username'
-//         placeholder='User name'
-//         onClick={onRegisterClicked}
-//       />
-//     </div>
-//   );
-// }
