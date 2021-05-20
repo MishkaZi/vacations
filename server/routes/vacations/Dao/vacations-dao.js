@@ -1,5 +1,8 @@
 const connection = require('../../connection-wrapper');
 
+let ServerError = require('../../../middleware/errors/server-error');
+let ErrorType = require('../../../middleware/errors/error-type');
+
 const addVacation = async (vacationAddDetails) => {
   let sql =
     'INSERT INTO vacations (description, destination,image,departure_date,arrival_date,price) VALUES (?,?,?,?,?,?);';
@@ -8,8 +11,8 @@ const addVacation = async (vacationAddDetails) => {
     vacationAddDetails.description,
     vacationAddDetails.destination,
     vacationAddDetails.image,
-    vacationAddDetails.departureDate,
-    vacationAddDetails.arrivalDate,
+    vacationAddDetails.departure_date,
+    vacationAddDetails.arrival_date,
     vacationAddDetails.price,
   ];
 
@@ -54,8 +57,8 @@ const updateVacation = async (vacationUpdateDetails, id) => {
     vacationUpdateDetails.description,
     vacationUpdateDetails.destination,
     vacationUpdateDetails.image,
-    vacationUpdateDetails.departureDate,
-    vacationUpdateDetails.arrivalDate,
+    vacationUpdateDetails.departure_date,
+    vacationUpdateDetails.arrival_date,
     vacationUpdateDetails.price,
     id,
   ];

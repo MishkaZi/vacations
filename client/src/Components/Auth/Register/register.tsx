@@ -4,7 +4,7 @@ import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
 // import { createAccount } from '../redux/actions';
 // import { useDispatch } from 'react-redux';
-import './register.css'
+import './register.css';
 import Axios from 'axios';
 
 export const Register = () => {
@@ -55,42 +55,31 @@ export const Register = () => {
           <input
             placeholder='Username: '
             type='email'
+            required
             {...register('username', {
               required: true,
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Entered value does not match email format',
-              },
             })}
           />
-          {errors.username && (
-            <span className='err-msg'>{errors.username.message}</span>
-          )}
-          {errors.username && errors.username.type === 'required' && (
-            <span>Username is required</span>
-          )}
         </div>
         <div>
           <input
             placeholder='Password: '
             type='password'
+            required
             {...register('password', {
               required: true,
               minLength: {
                 value: 8,
-                message: 'min length is 8',
+                message: 'Minimum length is 8',
               },
               maxLength: {
                 value: 12,
-                message: 'max length is 12',
+                message: 'Maximum length is 12',
               },
             })}
           />
           {errors.password && (
             <span className='err-msg'>{errors.password.message}</span>
-          )}
-          {errors.password && errors.password.type === 'required' && (
-            <span>Password is required</span>
           )}
         </div>
 
@@ -98,26 +87,26 @@ export const Register = () => {
           <input
             placeholder='First name: '
             type='text'
+            required
             {...register('firstName', { required: true })}
           />
-          {errors.firstName && (
-            <span className='err-msg'>Missing firstName</span>
-          )}
         </div>
 
         <div>
           <input
             placeholder='Last name: '
             type='text'
+            required
             {...register('lastName', { required: true })}
           />
-          {errors.lastName && <span className='err-msg'>Missing lastName</span>}
         </div>
 
-        <button type="submit">Register</button>
+        <button type='submit'>Register</button>
       </form>
 
-      <Link className='link' to='/'>If you have account - Login</Link>
+      <Link className='link' to='/'>
+        If you have account - Login
+      </Link>
     </div>
   );
 };

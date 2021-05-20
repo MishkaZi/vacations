@@ -11,6 +11,10 @@ const VacationCard = ({ vacation }: any): JSX.Element => {
       <div>
         <img src={vacation.image} alt='' />
         <p>
+          <b>Destination: </b>
+          {vacation.destination}
+        </p>
+        <p>
           <b>Description: </b>
           {vacation.description}
         </p>
