@@ -1,5 +1,5 @@
 import React from 'react';
-import './VacationCard.css';
+import './VacationCardAdmin.css';
 
 const VacationCard = ({ vacation }: any): JSX.Element => {
   // const func = () => {
@@ -27,20 +27,19 @@ const VacationCard = ({ vacation }: any): JSX.Element => {
           </p>
         </div>
 
-        {vacation.num_of_followers}
-        
         <button
           onClick={(event) => {
             console.log(event);
           }}
         >
-          <img
-            id='follow'
-            src='https://img-premium.flaticon.com/png/512/3893/3893183.png?token=exp=1621331436~hmac=31fcc596176be24638f0be0e3a0bdf73'
-            width='50'
-            height='50'
-            alt=''
-          />
+          <i className='fas fa-trash-alt fa-3x'></i>
+        </button>
+        <button
+          onClick={(event) => {
+            console.log(event);
+          }}
+        >
+          <i className='fas fa-edit fa-3x'></i>
         </button>
       </div>
     </div>

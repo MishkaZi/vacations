@@ -1,7 +1,7 @@
 import React from 'react';
-import './VacationCard.css';
+import './VacationCardAdminEdit.css';
 
-const VacationCard = ({ vacation }: any): JSX.Element => {
+const VacationCardAdminEdit = ({ vacation }: any): JSX.Element => {
   // const func = () => {
   //   console.log('hello');
   //   return 'hello';
@@ -10,6 +10,7 @@ const VacationCard = ({ vacation }: any): JSX.Element => {
     <div className='vacation-card'>
       <div>
         <img src={vacation.image} alt='' />
+        <input type="url" defaultValue={vacation.image} />
         <p>
           <b>Description: </b>
           {vacation.description}
@@ -27,24 +28,23 @@ const VacationCard = ({ vacation }: any): JSX.Element => {
           </p>
         </div>
 
-        {vacation.num_of_followers}
-        
         <button
           onClick={(event) => {
             console.log(event);
           }}
         >
-          <img
-            id='follow'
-            src='https://img-premium.flaticon.com/png/512/3893/3893183.png?token=exp=1621331436~hmac=31fcc596176be24638f0be0e3a0bdf73'
-            width='50'
-            height='50'
-            alt=''
-          />
+          <i className='fas fa-trash-alt'></i>
+        </button>
+        <button
+          onClick={(event) => {
+            console.log(event);
+          }}
+        >
+          <i className='fas fa-edit'></i>
         </button>
       </div>
     </div>
   );
 };
 
-export default VacationCard;
+export default VacationCardAdminEdit;

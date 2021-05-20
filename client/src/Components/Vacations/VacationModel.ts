@@ -5,5 +5,5 @@ export interface VacationModel {
   departure_date: string;
   arrival_date: string;
   price: string;
-  //numberOfFollowers:number;
+  num_of_followers:number;
 }

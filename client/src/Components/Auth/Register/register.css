@@ -79,6 +79,7 @@
   .link{
       font-family: 'Open Sans Condensed', sans-serif;
       color: #797979;
+      text-decoration: none;
   }
   
   .link:hover{

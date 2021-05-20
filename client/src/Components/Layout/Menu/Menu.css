@@ -1,8 +1,18 @@
 .Menu {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .Menu > a {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+.Menu > * {
+  font-family: 'Open Sans Condensed', sans-serif;
+  color: #2E3F7F;
+  text-decoration: none;
+}
+
+.Menu > *:hover {
+  color: #775550;
 }

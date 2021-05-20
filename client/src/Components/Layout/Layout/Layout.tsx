@@ -8,16 +8,17 @@ import VacationCardList from '../../Vacations/VacationCardList/VacationCardList'
 //Temporary:
 import Axios from 'axios';
 import { VacationModel } from '../../Vacations/VacationModel';
+import VacationCardListAdmin from '../../Vacations/Admin/VacationCardListAdmin/VacationCardListAdmin';
 
 export const LayoutComponent = (): JSX.Element => {
   //Using Hooks to display vacations ( temporary )
+  const isAdmin = true;
   const [vacations, setVacations] = useState<VacationModel[]>();
 
   const getVacations = async () => {
     try {
       const vacations = await Axios.get('http://localhost:3001/vacations/');
       setVacations(vacations.data);
-      console.log(vacations.data);
     } catch (error) {
       console.log(error);
     }
@@ -26,6 +27,13 @@ export const LayoutComponent = (): JSX.Element => {
   useEffect(() => {
     getVacations();
   }, []);
+
+  const VacationsCards = (props: any) => {
+    if (props.isAdmin) {
+      return <VacationCardListAdmin vacations={vacations} />;
+    }
+    return <VacationCardList vacations={vacations} />;
+  };
 
   return (
     <div className='Layout'>
@@ -37,7 +45,7 @@ export const LayoutComponent = (): JSX.Element => {
       </aside>
 
       <main>
-        <VacationCardList vacations={vacations} />
+        <VacationsCards isAdmin={'true'} />
       </main>
       <footer>
         <div className='copyrights'>
