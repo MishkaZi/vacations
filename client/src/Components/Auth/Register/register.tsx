@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
-// import { createAccount } from '../redux/actions';
-// import { useDispatch } from 'react-redux';
 import './register.css';
 import Axios from 'axios';
 
@@ -15,15 +13,9 @@ export const Register = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
-  const [user, setUser] = useState<UsersModel[]>();
-
   const registerUser = async (user: UsersModel) => {
     try {
-      const userData = await Axios.post('http://localhost:3001/users/', user);
-      console.log(userData.data);
-
-      //Register user id
-      setUser(userData.data);
+      await Axios.post('http://localhost:3001/users/', user);
 
       history.push('/login');
     } catch (error) {
@@ -31,19 +23,8 @@ export const Register = () => {
     }
   };
 
-  // useEffect(() => {
-  //   registerUser();
-  // },[ user]);
-
-  // const dispatch = useDispatch();
 
   const submit = async (data: UsersModel) => {
-    // try {
-    //   dispatch(createAccount(data));
-    //   history.push('/login');
-    // } catch (error) {
-    //   console.log(error);
-    // }
     registerUser(data);
   };
 

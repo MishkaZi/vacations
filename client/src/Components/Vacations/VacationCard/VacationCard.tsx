@@ -2,10 +2,7 @@ import React from 'react';
 import './VacationCard.css';
 
 const VacationCard = ({ vacation }: any): JSX.Element => {
-  // const func = () => {
-  //   console.log('hello');
-  //   return 'hello';
-  // };
+
   return (
     <div className='vacation-card'>
       <div>
@@ -40,7 +37,7 @@ const VacationCard = ({ vacation }: any): JSX.Element => {
         >
           <img
             id='follow'
-            src='https://img-premium.flaticon.com/png/512/3893/3893183.png?token=exp=1621331436~hmac=31fcc596176be24638f0be0e3a0bdf73'
+            src='../../../followed.png'
             width='50'
             height='50'
             alt=''

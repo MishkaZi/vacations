@@ -3,19 +3,6 @@ import { AuthActionType, UsersModel } from '../UsersModel';
 import { Dispatch } from 'redux';
 import { AuthAction } from './reducers';
 
-export const createAccount = async (data: UsersModel) => {
-  try {
-    console.log('Data actions: ' + data);
-
-    const result = await Axios.post('http://localhost:3001/users/', data);
-    console.log('Result actions: ' + result);
-
-    return { type: AuthActionType.REGISTER, payload: result.data };
-  } catch (error) {
-    console.log('Catched error: ' + JSON.stringify(error));
-  }
-};
-
 export const loginUser =
   (user: UsersModel) => async (dispatch: Dispatch<AuthAction>) => {
     try {

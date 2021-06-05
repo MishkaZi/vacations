@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
 import { VacationModel } from '../../VacationModel';
@@ -10,8 +10,6 @@ const VacationCardAdminAdd = (): JSX.Element => {
 
   const { register, handleSubmit } = useForm<VacationModel>();
 
-  const [vacation, setVacation] = useState<VacationModel[]>();
-
   const addVacation = async (vacation: VacationModel) => {
     try {
       console.log(vacation);
@@ -22,7 +20,7 @@ const VacationCardAdminAdd = (): JSX.Element => {
       console.log(vacationData.data);
 
       //Register vacation id
-      setVacation(vacationData.data);
+      // setVacation(vacationData.data);
 
       console.log(vacation);
 
