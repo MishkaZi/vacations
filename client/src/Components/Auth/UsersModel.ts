@@ -3,15 +3,10 @@ export interface UsersModel {
   password: string;
   firstName: string;
   lastName: string;
-  // isAdmin: boolean;
+  isAdmin: boolean;
 }
 
 export const AuthActionType = {
   REGISTER: 'REGISTER',
   LOGIN: 'LOGIN',
 };
-
-export interface AuthAction {
-  type: string;
-  payload?: any;
-}

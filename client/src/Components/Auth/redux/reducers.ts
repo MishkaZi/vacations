@@ -1,23 +1,32 @@
-import { AuthActionType, AuthAction } from '../UsersModel';
-const initialState = {};
+import { AuthActionType } from "../UsersModel";
 
-export const authReducer = (state = initialState, action: AuthAction): any => {
-  const { type, payload } = action;
-  console.log("Payload reducers: "+payload);
-  
 
-  switch (type) {
-    case AuthActionType.REGISTER:
-      return {
-        ...state,
-        user: payload,
-      };
+export interface AuthAction {
+  type: string;
+  payload?: {
+    token: string;
+    isAdmin: boolean;
+  };
+}
+
+interface defaultStateI {
+  token?: string;
+  isAdmin?: boolean;
+}
+
+const initialState: defaultStateI = {};
+
+export const authReducer = (
+  state = initialState,
+  action: AuthAction
+): defaultStateI => {
+  switch (action.type) {
     case AuthActionType.LOGIN:
       return {
-        ...state,
-        user: payload,
+        token: action.payload?.token,
+        isAdmin: action.payload?.isAdmin,
       };
     default:
-      break;
+      return {};
   }
 };

@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
-// import { createAccount } from '../redux/actions';
 import './login.css';
-import Axios from 'axios';
+import { loginUser } from '../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../../../store/store';
 
 export const Login = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const token = useSelector((state: RootStore) => state.Auth.token);
+  const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
+  
+  console.log(token, isAdmin);
 
   const {
     register,
@@ -15,28 +22,20 @@ export const Login = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
-  const [user, setUser] = useState<UsersModel[]>();
-
-  const loginUser = async (user: UsersModel) => {
-    try {
-      const userData = await Axios.post(
-        'http://localhost:3001/users/login',
-        user
-      );
-      console.log(userData.data);
-
-      //Loged users token
-      setUser(userData.data);
-
-      history.push('/home');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  
   const submit = (userData: UsersModel) => {
-    loginUser(userData);
+    dispatch(loginUser(userData));
   };
+  
+  // useEffect(() => {
+  //   if (isAdmin===true) {
+  //     console.log(isAdmin);
+      
+  //     history.push('/admin-home');
+  //   } else {
+  //     history.push('/home');
+  //   }
+  // }, [isAdmin])
 
   return (
     <div className='login'>

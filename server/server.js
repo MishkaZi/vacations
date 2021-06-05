@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const usersController = require('./routes/users/Controllers/users-controller');
 const vacationsController = require('./routes/vacations/Controllers/vacations-controller');
-const loginFilter = require('./middleware/login-filter');
+// const loginFilter = require('./middleware/login-filter');
 const errorHandler = require('./middleware/errors/error-handler');
 
 const server = express();

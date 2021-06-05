@@ -10,7 +10,7 @@ const authenticateJwtRequestToken = () => {
     path: [
       // public routes that don't require authentication
       '/users/login',
-      '/users/register',
+      '/users/',
       // '/users/forgotPassword',
     ],
   });

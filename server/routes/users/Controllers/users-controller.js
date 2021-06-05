@@ -1,5 +1,6 @@
 const express = require('express');
 const usersLogic = require('../Logic/users-logic');
+const cashe = require('../../cache-module');
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.post('/', async (req, res, next) => {
     const userId = await usersLogic.register(userRegistrationDetails);
     res.json(userId);
   } catch (error) {
-    console.log('Next Error: '+error);
+    console.log('Next Error: ' + error);
 
     return next(error);
   }
@@ -52,6 +53,8 @@ router.get('/:id', async (req, res, next) => {
 
 //Update
 router.put('/:id', async (req, res, next) => {
+  //Getting users id from cache 
+  const id = cashe.extractUserDataFromCache(req).id;
   try {
     const userUpdateDetails = req.body;
     const id = req.params.id;

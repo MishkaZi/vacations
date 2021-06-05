@@ -50,7 +50,10 @@ const login = async (userLoginDetails) => {
   cacheModule.set(jwtToken, userData);
 
   //returning to controller token as object
-  const successfullLoginResponse = { token: jwtToken };
+  const successfullLoginResponse = {
+    token: jwtToken,
+    isAdmin: userData.isAdmin,
+  };
   return successfullLoginResponse;
 };
 

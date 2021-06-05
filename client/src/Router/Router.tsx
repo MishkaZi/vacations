@@ -44,6 +44,11 @@ const Routing = () => {
           exact
           component={VacationCardAdminEdit}
         />
+           {/* <PrivateRoute
+          path='/admin-home'
+          exact
+          component={LayoutComponent isAdmin={'true'}}
+        /> */}
       </Switch>
     </>
   );

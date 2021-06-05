@@ -29,7 +29,7 @@ export const LayoutComponent = (): JSX.Element => {
   }, []);
 
   const VacationsCards = (props: any) => {
-    if (props.isAdmin) {
+    if (props.isAdmin==='true') {
       return <VacationCardListAdmin vacations={vacations} />;
     }
     return <VacationCardList vacations={vacations} />;
@@ -45,7 +45,7 @@ export const LayoutComponent = (): JSX.Element => {
       </aside>
 
       <main>
-        <VacationsCards isAdmin={'true'} />
+        <VacationsCards isAdmin={'false'} />
       </main>
       <footer>
         <div className='copyrights'>

@@ -4,7 +4,7 @@ let ErrorType = require('../../../middleware/errors/error-type');
 
 //Login
 const login = async (userLoginDetails) => {
-  let sql = 'SELECT * FROM users WHERE username=? AND password=?;';
+  let sql = 'SELECT id, is_admin as isAdmin FROM users WHERE username=? AND password=?;';
 
   let parameters = [userLoginDetails.username, userLoginDetails.password];
 
