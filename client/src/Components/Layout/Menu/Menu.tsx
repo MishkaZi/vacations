@@ -7,7 +7,7 @@ const Menu = (): JSX.Element => {
     <div className='Menu'>
       <NavLink to='/home'>Home</NavLink>
       {/* Temporary */}
-      <NavLink to='/'>Logout</NavLink>
+      <NavLink  to='/'>Logout</NavLink>
 
     </div>
   );

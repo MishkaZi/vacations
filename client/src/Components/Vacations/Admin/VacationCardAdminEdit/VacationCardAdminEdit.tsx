@@ -24,9 +24,11 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
       console.log(error);
     }
   };
+
   const submit = async (data: VacationModel) => {
     editVacation(data);
   };
+  
   return (
     <div className='editVacation'>
       <h3>Please update vacation details:</h3>

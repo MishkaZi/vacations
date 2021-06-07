@@ -7,23 +7,23 @@ import { LayoutComponent } from '../Components/Layout/Layout/Layout';
 // temporary
 import VacationCardAdminAdd from '../Components/Vacations/Admin/VacationCardAdminAdd/VacationCardAdminAdd';
 import VacationCardAdminEdit from '../Components/Vacations/Admin/VacationCardAdminEdit/VacationCardAdminEdit';
-
-const authenticated = true;
-const isAdmin = false;
-
-const PrivateRoute = ({ component, ...rest }: any) => {
-  if (authenticated && isAdmin) {
-    //Go to Admin page
-    return <Route {...rest} component={component} />;
-  } else if (authenticated) {
-    //If regular user, go to vacations main page
-    return <Route {...rest} component={component} />;
-  }
-  //In case not authenticated at all
-  return <Route {...rest} component={Login} />;
-};
+import { useSelector } from 'react-redux';
+import { RootStore } from '../store/store';
 
 const Routing = () => {
+  const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
+  console.log(isAdmin);
+  
+  const PrivateRoute = ({ component, ...rest }: any) => {
+    if (isAdmin) {
+      //Go to Admin page
+      return <Route {...rest} component={component} />;
+    } else {
+      //If regular user, go to vacations main page
+      return <Route {...rest} component={LayoutComponent} />;
+    }
+  };
+
   return (
     <>
       <Switch>
@@ -35,16 +35,16 @@ const Routing = () => {
 
         {/* Private route for admin */}
         <PrivateRoute
-          path='/addVacation'
+          path='/add-vacation'
           exact
           component={VacationCardAdminAdd}
         />
         <PrivateRoute
-          path='/editVacation'
+          path='/edit-vacation'
           exact
           component={VacationCardAdminEdit}
         />
-           {/* <PrivateRoute
+        {/* <PrivateRoute
           path='/admin-home'
           exact
           component={LayoutComponent isAdmin={'true'}}

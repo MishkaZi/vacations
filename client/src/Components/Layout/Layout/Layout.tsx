@@ -5,7 +5,6 @@ import './Layout.css';
 import Menu from '../Menu/Menu';
 import VacationCardList from '../../Vacations/VacationCardList/VacationCardList';
 
-import VacationCardListAdmin from '../../Vacations/Admin/VacationCardListAdmin/VacationCardListAdmin';
 import { RootStore } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVacations } from '../../Vacations/redux/actions';
@@ -22,13 +21,6 @@ export const LayoutComponent = (): JSX.Element => {
     dispatch(getVacations());
   }, [dispatch]);
 
-  const VacationsCards = (props: any) => {
-    if (props.isAdmin === 'true') {
-      return <VacationCardListAdmin vacations={vacations} />;
-    }
-    return <VacationCardList vacations={vacations} />;
-  };
-
   return (
     <div className='Layout'>
       <header className='header'>
@@ -39,7 +31,7 @@ export const LayoutComponent = (): JSX.Element => {
       </aside>
 
       <main>
-        <VacationsCards isAdmin={'false'} />
+        <VacationCardList vacations={vacations} />
       </main>
       <footer>
         <div className='copyrights'>

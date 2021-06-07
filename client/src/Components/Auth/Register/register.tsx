@@ -16,13 +16,11 @@ export const Register = () => {
   const registerUser = async (user: UsersModel) => {
     try {
       await Axios.post('http://localhost:3001/users/', user);
-
       history.push('/login');
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
-
 
   const submit = async (data: UsersModel) => {
     registerUser(data);

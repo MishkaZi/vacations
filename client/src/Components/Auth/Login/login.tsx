@@ -1,47 +1,25 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
 import './login.css';
 import { loginUser } from '../redux/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore } from '../../../store/store';
-import { getVacations } from '../../Vacations/redux/actions';
+import { useDispatch } from 'react-redux';
 
 export const Login = () => {
-  // const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
-
-  //Getting from store token and isAdmin
-  const token = useSelector((state: RootStore) => state.Auth.token);
-  const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
-
-  console.log(token, isAdmin);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UsersModel>();
 
-  
   const submit = (userData: UsersModel) => {
     //Saving to store token and isAdmin
     dispatch(loginUser(userData));
-    dispatch(getVacations());
-
+    history.push('/home');
   };
-  
-  //This is not right
-  // useEffect(() => {
-  //   if (isAdmin===true) {
-  //     console.log(isAdmin);
-      
-  //     history.push('/admin-home');
-  //   } else {
-  //     history.push('/home');
-  //   }
-  // }, [isAdmin])
 
   return (
     <div className='login'>

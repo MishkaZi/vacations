@@ -7,7 +7,7 @@ export const getVacations =
   () => async (dispatch: Dispatch<VacationAction>) => {
     try {
       const vacations = await Axios.get('http://localhost:3001/vacations/');
-      
+
       dispatch({
         type: VacationsActionType.GET_ALL_VACATIONS,
         payload: vacations.data,
