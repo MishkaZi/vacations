@@ -15,12 +15,13 @@ export const vacationsReducer = (
   state: defaultStateI = initialState,
   action: VacationAction
 ): defaultStateI => {
+  const newAppState = { ...state };
+
   switch (action.type) {
     case VacationsActionType.GET_ALL_VACATIONS:
-      return {
-        vacations: action.payload,
-      };
+      newAppState.vacations = action.payload;
+      return newAppState;
     default:
-      return {};
+      return newAppState;
   }
 };

@@ -1,5 +1,4 @@
-import { AuthActionType } from "../UsersModel";
-
+import { AuthActionType } from '../UsersModel';
 
 export interface AuthAction {
   type: string;
@@ -20,13 +19,13 @@ export const authReducer = (
   state = initialState,
   action: AuthAction
 ): defaultStateI => {
+  const newAppState = { ...state };
   switch (action.type) {
     case AuthActionType.LOGIN:
-      return {
-        token: action.payload?.token,
-        isAdmin: action.payload?.isAdmin,
-      };
+      newAppState.token = action.payload?.token;
+      newAppState.isAdmin = action.payload?.isAdmin;
+      return newAppState;
     default:
-      return {};
+      return newAppState;
   }
 };

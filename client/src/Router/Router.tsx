@@ -11,9 +11,13 @@ import { useSelector } from 'react-redux';
 import { RootStore } from '../store/store';
 
 const Routing = () => {
-  const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
-  console.log(isAdmin);
-  
+  const vacations = useSelector(
+    (state: RootStore) => state.Vacations.vacations
+  );
+  console.log(vacations);
+
+  const isAdmin = true;
+
   const PrivateRoute = ({ component, ...rest }: any) => {
     if (isAdmin) {
       //Go to Admin page
