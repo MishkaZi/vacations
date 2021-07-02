@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import './login.css';
 import { loginUser } from '../redux/actions';
 import { useDispatch } from 'react-redux';
+import Axios from 'axios';
 
 export const Login = () => {
   const history = useHistory();
@@ -15,10 +16,28 @@ export const Login = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
-  const submit = (userData: UsersModel) => {
-    //Saving to store token and isAdmin
-    dispatch(loginUser(userData));
-    history.push('/home');
+  const submit = async (user: UsersModel) => {
+    try {
+      const userData = await Axios.post(
+        'http://localhost:3001/users/login',
+        user
+      );
+
+      let token = 'Bearer ' + userData.data.token;
+
+      //Relevant if we refresh  the page, yet still want to stay logged in
+      sessionStorage.setItem('userToken', token);
+      // Axios.defaults.headers.common['Authorization'] = token;
+
+      const isAdmin = userData.data.isAdmin === 1 ? true : false;
+
+      //Saving to store token and isAdmin
+      dispatch(loginUser(token, isAdmin));
+      history.push('/home');
+    } catch (error) {
+      console.log(error);
+      alert('Error failed: '+ error);
+    }
   };
 
   return (

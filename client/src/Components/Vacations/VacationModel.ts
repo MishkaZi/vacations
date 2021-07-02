@@ -10,7 +10,7 @@ export interface VacationModel {
 
 export const VacationsActionType = {
   GET_ALL_VACATIONS: 'GET_ALL_VACATIONS',
-  EDIT_VACATIONS: 'EDIT_VACATIONS',
+  EDIT_VACATION: 'EDIT_VACATION',
   DELETE_VACATION: 'DELETE_VACATION',
   ADD_VACATION: 'ADD_VACATION',
 };

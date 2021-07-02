@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { Register } from '../Components/Auth/Register/register';
 import { Login } from '../Components/Auth/Login/login';
-import { LayoutComponent } from '../Components/Layout/Layout/Layout';
+import { LayoutComponent } from '../Components/Layout/Layout';
 // temporary
 import VacationCardAdminAdd from '../Components/Vacations/Admin/VacationCardAdminAdd/VacationCardAdminAdd';
 import VacationCardAdminEdit from '../Components/Vacations/Admin/VacationCardAdminEdit/VacationCardAdminEdit';
@@ -11,12 +11,11 @@ import { useSelector } from 'react-redux';
 import { RootStore } from '../store/store';
 
 const Routing = () => {
-  const vacations = useSelector(
-    (state: RootStore) => state.Vacations.vacations
-  );
-  console.log(vacations);
-
-  const isAdmin = true;
+  let isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
+  if (isAdmin === undefined) {
+    isAdmin = false;
+  }
+  console.log(isAdmin);
 
   const PrivateRoute = ({ component, ...rest }: any) => {
     if (isAdmin) {

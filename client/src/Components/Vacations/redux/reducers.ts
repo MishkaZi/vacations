@@ -21,7 +21,27 @@ export const vacationsReducer = (
     case VacationsActionType.GET_ALL_VACATIONS:
       newAppState.vacations = action.payload;
       return newAppState;
+    case VacationsActionType.ADD_VACATION:
+      newAppState.vacations = action.payload;
+      return newAppState;
+    case VacationsActionType.EDIT_VACATION:
+      newAppState.vacations = action.payload;
+      return newAppState;
+      
     default:
       return newAppState;
   }
 };
+
+//Temporary
+const initDeleteId = { id: 0 };
+export const deleteVacationIdReducer = (state = initDeleteId, action:any) => {
+  const newState = { ...state };
+  switch (action.type) {
+    case VacationsActionType.DELETE_VACATION:
+      newState.id = action.payload;
+      break;
+  }
+  return newState;
+};
+
