@@ -1,15 +1,26 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './App.css';
-import Router  from './Router/Router';
+import Router from './Router/Router';
+import { RootStore } from './store/store';
 
 function App() {
+  const history = useHistory();
+
+  const auth: any = useSelector((state: RootStore) => state.Auth.isAdmin);
+
+  //In case of refresh page
+  useEffect(() => {
+    if (auth === undefined) {
+      history.push('/');
+    }
+  }, []);
   return (
-    <BrowserRouter>
-      <div className='App'>
-        <Router />
-      </div>
-    </BrowserRouter>
+    <div className='App'>
+      <Router />
+    </div>
   );
 }
 

@@ -1,13 +1,16 @@
-import { createStore, combineReducers} from 'redux';
+import { createStore, combineReducers, compose } from 'redux';
 import { authReducer } from '../Components/Auth/redux/reducers';
-import { deleteVacationIdReducer, vacationsReducer } from '../Components/Vacations/redux/reducers';
+import {
+  vacationsReducer,
+} from '../Components/Vacations/redux/reducers';
 
 const allReducers = combineReducers({
   Auth: authReducer,
   Vacations: vacationsReducer,
-  DeleteId: deleteVacationIdReducer,
 });
 
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export type RootStore = ReturnType<typeof allReducers>;
 
-export const store = createStore(allReducers);
+export const store = createStore(allReducers, composeEnhancers());

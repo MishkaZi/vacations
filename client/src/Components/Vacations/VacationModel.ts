@@ -1,16 +1,17 @@
 export interface VacationModel {
+  vacationId: number;
   description: string;
   destination: string;
   image: string;
-  departure_date: string;
-  arrival_date: string;
+  startDate: Date;
+  endDate: Date;
   price: string;
-  num_of_followers:number;
+  userId: number;
+  numOfFollowers: number;
 }
 
 export const VacationsActionType = {
   GET_ALL_VACATIONS: 'GET_ALL_VACATIONS',
-  EDIT_VACATION: 'EDIT_VACATION',
-  DELETE_VACATION: 'DELETE_VACATION',
-  ADD_VACATION: 'ADD_VACATION',
+  UPDATE_VACATION: 'UPDATE_VACATION',
+  DELETE_VACATION: 'DELETE_VACATION'
 };

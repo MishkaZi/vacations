@@ -9,13 +9,13 @@ import VacationCardAdminAdd from '../Components/Vacations/Admin/VacationCardAdmi
 import VacationCardAdminEdit from '../Components/Vacations/Admin/VacationCardAdminEdit/VacationCardAdminEdit';
 import { useSelector } from 'react-redux';
 import { RootStore } from '../store/store';
+import FollowersChart from '../Components/Vacations/Admin/FollowersChart/FollowersChart';
 
 const Routing = () => {
   let isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
   if (isAdmin === undefined) {
     isAdmin = false;
   }
-  console.log(isAdmin);
 
   const PrivateRoute = ({ component, ...rest }: any) => {
     if (isAdmin) {
@@ -47,11 +47,11 @@ const Routing = () => {
           exact
           component={VacationCardAdminEdit}
         />
-        {/* <PrivateRoute
-          path='/admin-home'
+        <PrivateRoute
+          path='/chart'
           exact
-          component={LayoutComponent isAdmin={'true'}}
-        /> */}
+          component={FollowersChart}
+        />
       </Switch>
     </>
   );

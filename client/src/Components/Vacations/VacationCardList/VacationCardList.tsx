@@ -40,7 +40,7 @@ const VacationCardList = (): JSX.Element => {
   return (
     <div className='vacation-card-list'>
       {vacations?.map((vacation: VacationModel, index: number) => {
-        return <VacationCard key={index} vacation={vacation} />;
+        return <VacationCard key={index} {...vacation} />;
       })}
     </div>
   );

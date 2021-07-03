@@ -4,21 +4,24 @@ import { Link, useHistory } from 'react-router-dom';
 import { VacationModel } from '../../VacationModel';
 import './VacationCardAdminEdit.css';
 import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../../../store/store';
 
-const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.Element => {
+const VacationCardAdminEdit = (): JSX.Element => {
   const history = useHistory();
+  const vacation = useSelector(
+    (state: RootStore) => state.Vacations.updateVacation
+  );
 
   const { register, handleSubmit } = useForm<VacationModel>();
 
   const editVacation = async (updatedVacation: VacationModel) => {
-
     try {
-      const vacationData = await Axios.put(
-        `http://localhost:3001/vacations/:${vacationId}`,
+      await Axios.put(
+        `http://localhost:3001/vacations/${vacation?.vacationId}`,
         updatedVacation
       );
-        console.log(vacationData);
-        
+
       history.push('/home');
     } catch (error) {
       console.log(error);
@@ -28,7 +31,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
   const submit = async (data: VacationModel) => {
     editVacation(data);
   };
-  
+
   return (
     <div className='editVacation'>
       <h3>Please update vacation details:</h3>
@@ -39,7 +42,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Destination: '
             type='text'
             required
-            defaultValue={vacation.destination}
+            defaultValue={vacation?.destination}
             {...register('destination', {
               required: true,
             })}
@@ -51,7 +54,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Description: '
             type='text'
             required
-            defaultValue={vacation.description}
+            defaultValue={vacation?.description}
             {...register('description', {
               required: true,
             })}
@@ -63,7 +66,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Image URL: '
             type='url'
             required
-            defaultValue={vacation.image}
+            defaultValue={vacation?.image}
             {...register('image', {
               required: true,
             })}
@@ -75,8 +78,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Departure date: '
             type='date'
             required
-            defaultValue={vacation.departure_date}
-            {...register('departure_date', { required: true })}
+            {...register('startDate', { required: true })}
           />
         </div>
         {/* Arrival date */}
@@ -85,8 +87,7 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Arrival date: '
             type='date'
             required
-            defaultValue={vacation.arrival_date}
-            {...register('arrival_date', { required: true })}
+            {...register('endDate', { required: true })}
           />
         </div>
         {/* Price */}
@@ -95,13 +96,13 @@ const VacationCardAdminEdit = (vacation:VacationModel, vacationId:number): JSX.E
             placeholder='Price: '
             type='number'
             required
-            defaultValue={vacation.price}
+            defaultValue={vacation?.price}
             {...register('price', {
               required: true,
             })}
           />
         </div>
-        <button type='submit'>Edit vacation</button>
+        <button type='submit'>Edit vacation?</button>
       </form>
 
       <Link className='link' to='/home'>

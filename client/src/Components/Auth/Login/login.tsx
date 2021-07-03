@@ -36,7 +36,7 @@ export const Login = () => {
       history.push('/home');
     } catch (error) {
       console.log(error);
-      alert('Error failed: '+ error);
+      alert('Error failed: ' + error);
     }
   };
 

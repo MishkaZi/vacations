@@ -1,38 +1,15 @@
-import { VacationsActionType } from '../VacationModel';
+import { VacationsActionType, VacationModel } from '../VacationModel';
 
-export const getVacations =  (vacations: any) => {
-  console.log(vacations);
-  
+export const getVacations = (vacations: VacationModel[]) => {
   return {
     type: VacationsActionType.GET_ALL_VACATIONS,
     payload: vacations,
   };
 };
 
-
-export const addVacation =  (vacation: any) => {
-  console.log(vacation);
-  
+export const updateVacation = (vacation: VacationModel) => {
   return {
-    type: VacationsActionType.ADD_VACATION,
-    payload: vacation,
-  };
-};
-
-
-export const editVacation =  (updatedVacation: any) => {
-  console.log(updatedVacation);
-  
-  return {
-    type: VacationsActionType.EDIT_VACATION,
-    payload: updatedVacation,
-  };
-};
-
-export const deleteVacation =  (id:number) => {
-  
-  return {
-    type: VacationsActionType.DELETE_VACATION,
-    payload:id
+    type: VacationsActionType.UPDATE_VACATION,
+    updateVacation: vacation,
   };
 };

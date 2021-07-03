@@ -12,17 +12,7 @@ const VacationCardAdminAdd = (): JSX.Element => {
 
   const addVacation = async (vacation: VacationModel) => {
     try {
-      console.log(vacation);
-      const vacationData = await Axios.post(
-        'http://localhost:3001/vacations/',
-        vacation
-      );
-      console.log(vacationData.data);
-
-      //Register vacation id
-      // setVacation(vacationData.data);
-
-      console.log(vacation);
+      await Axios.post('http://localhost:3001/vacations/', vacation);
 
       history.push('/home');
     } catch (error) {
@@ -75,7 +65,7 @@ const VacationCardAdminAdd = (): JSX.Element => {
             placeholder='Departure date: '
             type='date'
             required
-            {...register('departure_date', { required: true })}
+            {...register('startDate', { required: true })}
           />
         </div>
         {/* Arrival date */}
@@ -84,7 +74,7 @@ const VacationCardAdminAdd = (): JSX.Element => {
             placeholder='Arrival date: '
             type='date'
             required
-            {...register('arrival_date', { required: true })}
+            {...register('endDate', { required: true })}
           />
         </div>
         {/* Price */}
