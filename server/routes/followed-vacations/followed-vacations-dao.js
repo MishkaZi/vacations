@@ -18,7 +18,6 @@ const userFollowsVacation = async (userId, vacationId) => {
 };
 
 const userUnFollowsVacation = async (userId, vacationId) => {
-  //Needed to be checked if it does what it should be doing.
   let sql =
     'DELETE FROM followed_vacations WHERE (user_id=? AND vacation_id=?);';
 

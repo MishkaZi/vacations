@@ -33,17 +33,9 @@ const VacationCardList = (): JSX.Element => {
     getVacationsFromDB();
   }, []);
 
-  //Type should be changed
   const vacations = useSelector(
     (state: RootStore) => state.Vacations.vacations
   ) as VacationModel[];
-
-  // const sortedVacations = vacations;
-  // if (vacations) {
-  //   sortedVacations.sort((vacationA: VacationModel) =>
-  //     vacationA.userId === null ? 1 : -1
-  //   );
-  // }
 
   return (
     <div className='vacation-card-list'>

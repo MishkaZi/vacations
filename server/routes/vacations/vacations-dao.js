@@ -27,17 +27,6 @@ const addVacation = async (vacationAddDetails) => {
   }
 };
 
-const getOneVacation = async (id) => {
-  let sql = 'SELECT * FROM vacations WHERE vacations.id=?;';
-
-  try {
-    const vacationDetails = await connection.executeWithParameters(sql, id);
-    return vacationDetails;
-  } catch (error) {
-    throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
-  }
-};
-
 //Get all vacations by user followed
 const getAllVacations = async (userId) => {
   //Should be fixed and used in the future
@@ -53,14 +42,15 @@ const getAllVacations = async (userId) => {
   ON v.id=followed_vacations.vacation_id && followed_vacations.user_id=?
   ORDER BY  followed_vacations.user_id DESC;`;
 
-  let parameters = [
-    userId,
-  ];
+  let parameters = [userId];
 
   // let sql = 'SELECT * FROM vacations;';
 
   try {
-    const vacationsDetails = await connection.executeWithParameters(sql,parameters);
+    const vacationsDetails = await connection.executeWithParameters(
+      sql,
+      parameters
+    );
     return vacationsDetails;
   } catch (error) {
     throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
@@ -100,9 +90,21 @@ const deleteVacation = async (id) => {
   }
 };
 
+//For future
+// const getOneVacation = async (id) => {
+//   let sql = 'SELECT * FROM vacations WHERE vacations.id=?;';
+
+//   try {
+//     const vacationDetails = await connection.executeWithParameters(sql, id);
+//     return vacationDetails;
+//   } catch (error) {
+//     throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
+//   }
+// };
+
 module.exports = {
   addVacation,
-  getOneVacation,
+  // getOneVacation,s
   getAllVacations,
   deleteVacation,
   updateVacation,

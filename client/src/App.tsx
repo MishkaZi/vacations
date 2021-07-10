@@ -9,7 +9,7 @@ import { RootStore } from './store/store';
 function App() {
   const history = useHistory();
 
-  const auth: any = useSelector((state: RootStore) => state.Auth.isAdmin);
+  const auth: boolean = useSelector((state: RootStore) => state.Auth.isAdmin);
 
   //In case of refresh page
   useEffect(() => {
@@ -17,6 +17,7 @@ function App() {
       history.push('/');
     }
   }, []);
+
   return (
     <div className='App'>
       <Router />

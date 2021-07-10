@@ -48,7 +48,7 @@ export const LayoutComponent = (): JSX.Element => {
       <footer>
         <div className='copyrights'>
           <div className='Copyrights'>
-            <p>All Rights Reserved &copy;</p>
+            <p>All Rights Reserved to Michael Zinoviev &copy;</p>
           </div>
         </div>
       </footer>

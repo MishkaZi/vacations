@@ -14,7 +14,7 @@ const login = async (userLoginDetails) => {
       sql,
       parameters
     );
-    
+
     //Check if username and password match ones in DB
     if (userLoginResult == null || userLoginResult.length == 0) {
       throw new ServerError(ErrorType.UNAUTHORIZED);
@@ -29,14 +29,13 @@ const login = async (userLoginDetails) => {
 //Register
 const register = async (userRegistrationDetails) => {
   let sql =
-    'INSERT INTO users (username, password,first_name, last_name, is_admin) VALUES (?,?,?,?,?);';
+    'INSERT INTO users (username, password,first_name, last_name) VALUES (?,?,?,?);';
 
   let parameters = [
     userRegistrationDetails.username,
     userRegistrationDetails.password,
     userRegistrationDetails.firstName,
     userRegistrationDetails.lastName,
-    userRegistrationDetails.isAdmin,
   ];
 
   try {
@@ -62,10 +61,8 @@ const isUsernameExist = async (username) => {
     );
 
     if (userExistResult == null || userExistResult.length === 0) {
-      console.log('doesnt exist');
       return false;
     }
-    console.log('exist');
 
     return true;
   } catch (error) {

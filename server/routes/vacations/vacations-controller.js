@@ -20,7 +20,6 @@ router.post('/', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const userdata = cacheModule.extractUserDataFromCache(req);
-    console.log(userdata);
     const vacations = await vacationsLogic.getAllVacations(userdata.id);
 
     res.json(vacations);
@@ -30,17 +29,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//Get one vacation
-router.get('/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const vacation = await vacationsLogic.getOneVacation(id);
-
-    res.json(vacation);
-  } catch (error) {
-    return next(error);
-  }
-});
 
 //Update vacation
 router.put('/:id', async (req, res, next) => {
@@ -50,12 +38,12 @@ router.put('/:id', async (req, res, next) => {
     const updatedId = await vacationsLogic.updateVacation(
       vacationUpdateDetails,
       id
-    );
-
-    res.json(updatedId);
-  } catch (error) {
-    return next(error);
-  }
+      );
+      
+      res.json(updatedId);
+    } catch (error) {
+      return next(error);
+    }
 });
 
 //Delete
@@ -63,11 +51,24 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const deletedId = await vacationsLogic.deleteVacation(id);
-
+    
     res.json(deletedId);
   } catch (error) {
     return next(error);
   }
 });
+
+//For future
+// //Get one vacation
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     const vacation = await vacationsLogic.getOneVacation(id);
+
+//     res.json(vacation);
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 
 module.exports = router;

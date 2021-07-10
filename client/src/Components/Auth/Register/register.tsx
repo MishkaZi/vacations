@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
@@ -13,12 +13,15 @@ export const Register = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
+  const [error, setError] = useState<string>();
+
   const registerUser = async (user: UsersModel) => {
     try {
       await Axios.post('http://localhost:3001/users/', user);
-      history.push('/login');
+      history.push('/');
+      alert('Thank you for registering, now login!');
     } catch (error) {
-      throw new Error(error);
+      setError(error.response.data.error);
     }
   };
 
@@ -28,6 +31,7 @@ export const Register = () => {
 
   return (
     <div className='register'>
+      {error && <div className='alert'>{error}</div>}
       <h3>Register please:</h3>
       <form onSubmit={handleSubmit(submit)}>
         <div>

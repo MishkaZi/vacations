@@ -19,10 +19,10 @@ const Routing = () => {
 
   const PrivateRoute = ({ component, ...rest }: any) => {
     if (isAdmin) {
-      //Go to Admin page
+      //Access for admin user
       return <Route {...rest} component={component} />;
     } else {
-      //If regular user, go to vacations main page
+      //Regular user can only access
       return <Route {...rest} component={LayoutComponent} />;
     }
   };
