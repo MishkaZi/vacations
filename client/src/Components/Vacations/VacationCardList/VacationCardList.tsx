@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import VacationCard from '../VacationCard/VacationCard';
 import { VacationModel } from '../VacationModel';
@@ -13,6 +13,7 @@ import './VacationCardList.css';
 
 const VacationCardList = (): JSX.Element => {
   const dispatch = useDispatch();
+  const [error, setError] = useState<string>();
 
   const getVacationsFromDB = async () => {
     let token = sessionStorage.getItem('userToken');
@@ -24,7 +25,7 @@ const VacationCardList = (): JSX.Element => {
 
       dispatch(getVacations(vacations.data));
     } catch (error) {
-      return new Error(error);
+      setError(error.response.data.error);
     }
   };
 
@@ -33,12 +34,20 @@ const VacationCardList = (): JSX.Element => {
   }, []);
 
   //Type should be changed
-  const vacations: any = useSelector(
+  const vacations = useSelector(
     (state: RootStore) => state.Vacations.vacations
-  );
+  ) as VacationModel[];
+
+  // const sortedVacations = vacations;
+  // if (vacations) {
+  //   sortedVacations.sort((vacationA: VacationModel) =>
+  //     vacationA.userId === null ? 1 : -1
+  //   );
+  // }
 
   return (
     <div className='vacation-card-list'>
+      {error && <div className='alert'>{error}</div>}
       {vacations?.map((vacation: VacationModel, index: number) => {
         return <VacationCard key={index} {...vacation} />;
       })}

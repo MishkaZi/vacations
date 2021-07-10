@@ -3,11 +3,14 @@ import './Layout.css';
 import VacationCardList from '../Vacations/VacationCardList/VacationCardList';
 import logoImage from './great-vacations-logo.png';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../../store/store';
+import { removeVacations } from '../Vacations/redux/actions';
+import { logoutUser } from '../Auth/redux/actions';
 
 export const LayoutComponent = (): JSX.Element => {
   const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
+  const dispatch = useDispatch();
 
   return (
     <div className='Layout'>
@@ -29,6 +32,8 @@ export const LayoutComponent = (): JSX.Element => {
           <NavLink
             onClick={() => {
               sessionStorage.removeItem('userToken');
+              dispatch(removeVacations());
+              dispatch(logoutUser());
             }}
             to='/'
           >

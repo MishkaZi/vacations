@@ -25,6 +25,10 @@ export const authReducer = (
       newAppState.token = action.payload?.token;
       newAppState.isAdmin = action.payload?.isAdmin;
       return newAppState;
+    case AuthActionType.LOG_OUT:
+      newAppState.isAdmin = action.payload?.isAdmin;
+      newAppState.token = action.payload?.token;
+      return newAppState;
     default:
       return newAppState;
   }

@@ -1,22 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
 import { VacationModel } from '../../VacationModel';
 import './VacationCardAdminAdd.css';
 import Axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../../../../store/store';
+import { getVacations } from '../../redux/actions';
 
 const VacationCardAdminAdd = (): JSX.Element => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { register, handleSubmit } = useForm<VacationModel>();
+  const [error, setError] = useState<string>();
+
+  const vacations = useSelector(
+    (state: RootStore) => state.Vacations.vacations!
+  ) as VacationModel[];
 
   const addVacation = async (vacation: VacationModel) => {
     try {
-      await Axios.post('http://localhost:3001/vacations/', vacation);
+      let token = sessionStorage.getItem('userToken');
+
+      const vacationId = await Axios.post(
+        'http://localhost:3001/vacations/',
+        vacation,
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      //Add id to vacation
+      const updatedVacation = vacation;
+      updatedVacation.vacationId = vacationId.data;
+
+      const updatedVacations = vacations;
+      updatedVacations.push(updatedVacation);
+
+      dispatch(getVacations(updatedVacations));
 
       history.push('/home');
     } catch (error) {
-      console.log(error);
+      setError(error.response.data.error);
     }
   };
   const submit = async (data: VacationModel) => {
@@ -24,6 +50,7 @@ const VacationCardAdminAdd = (): JSX.Element => {
   };
   return (
     <div className='addVacation'>
+      {error && <div className='alert'>{error}</div>}
       <h3>Please enter vacation details:</h3>
       <form onSubmit={handleSubmit(submit)}>
         {/* Destination */}

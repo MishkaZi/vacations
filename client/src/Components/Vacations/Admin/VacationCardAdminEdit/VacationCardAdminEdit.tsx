@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
 import { VacationModel } from '../../VacationModel';
@@ -14,17 +14,23 @@ const VacationCardAdminEdit = (): JSX.Element => {
   );
 
   const { register, handleSubmit } = useForm<VacationModel>();
+  const [error, setError] = useState<string>();
 
   const editVacation = async (updatedVacation: VacationModel) => {
     try {
+      let token = sessionStorage.getItem('userToken');
+
       await Axios.put(
         `http://localhost:3001/vacations/${vacation?.vacationId}`,
-        updatedVacation
+        updatedVacation,
+        {
+          headers: { Authorization: token },
+        }
       );
 
       history.push('/home');
     } catch (error) {
-      console.log(error);
+      setError(error.response.data.error);
     }
   };
 
@@ -34,6 +40,7 @@ const VacationCardAdminEdit = (): JSX.Element => {
 
   return (
     <div className='editVacation'>
+      {error && <div className='alert'>{error}</div>}
       <h3>Please update vacation details:</h3>
       <form onSubmit={handleSubmit(submit)}>
         {/* Destination */}

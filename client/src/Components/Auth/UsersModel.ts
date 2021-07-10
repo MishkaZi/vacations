@@ -9,4 +9,5 @@ export interface UsersModel {
 export const AuthActionType = {
   REGISTER: 'REGISTER',
   LOGIN: 'LOGIN',
+  LOG_OUT: 'LOG_OUT',
 };

@@ -9,7 +9,7 @@ const set = (key, value) => {
 
 // This function should be in a separate module, because many resources will use it
 const extractUserDataFromCache = (request) => {
-  let authorizationString = request.headers['Authorization'];
+  let authorizationString = request.headers['authorization'];
   // Removing the bearer prefix, leaving the clean token
   let token = authorizationString.substring('Bearer '.length);
   let userData = dataMap.get(token);
@@ -19,6 +19,5 @@ const extractUserDataFromCache = (request) => {
 module.exports = {
   set,
   get,
-  dataMap,
   extractUserDataFromCache,
 };

@@ -6,3 +6,10 @@ export const loginUser = (token: string, isAdmin: boolean) => {
     payload: { token, isAdmin },
   };
 };
+
+export const logoutUser = () => {
+  return {
+    type: AuthActionType.LOGIN,
+    payload: undefined,
+  };
+};

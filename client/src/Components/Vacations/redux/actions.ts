@@ -13,3 +13,10 @@ export const updateVacation = (vacation: VacationModel) => {
     updateVacation: vacation,
   };
 };
+
+export const removeVacations = () => {
+  return {
+    type: VacationsActionType.LOG_OUT,
+    payload: undefined,
+  };
+};

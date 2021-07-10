@@ -1,11 +1,11 @@
-const usersDao = require('../Dao/users-dao');
-const cacheModule = require('../../cache-module');
+const usersDao = require('./users-dao');
+const cacheModule = require('../cache-module');
 
-let ServerError = require('../../../middleware/errors/server-error');
-let ErrorType = require('../../../middleware/errors/error-type');
+let ServerError = require('../../middleware/errors/server-error');
+let ErrorType = require('../../middleware/errors/error-type');
 
 const jwt = require('jsonwebtoken');
-const config = require('../../../config.json');
+const config = require('../../config.json');
 const crypto = require('crypto');
 
 const RIGHT_SALT = 'adfnsadkubgasdbvasndklgvnearugbasjkad';
@@ -57,23 +57,24 @@ const login = async (userLoginDetails) => {
   return successfullLoginResponse;
 };
 
-const getOneUser = async (id) => {
-  return await usersDao.getOneUser(id);
-};
+//For future
+// const getOneUser = async (id) => {
+//   return await usersDao.getOneUser(id);
+// };
 
-const getAllUsers = async () => {
-  return await usersDao.getAllUsers();
-};
+// const getAllUsers = async () => {
+//   return await usersDao.getAllUsers();
+// };
 
-const update = (userUpdateDetails, id) => {
-  //validations
-  validateUserDetails(userUpdateDetails);
-  return usersDao.update(userUpdateDetails, id);
-};
+// const update = (userUpdateDetails, id) => {
+//   //validations
+//   validateUserDetails(userUpdateDetails);
+//   return usersDao.update(userUpdateDetails, id);
+// };
 
-const deleteUser = (id) => {
-  return usersDao.deleteUser(id);
-};
+// const deleteUser = (id) => {
+//   return usersDao.deleteUser(id);
+// };
 
 //Validations
 const validateUserDoesNotExist = async (userDetails) => {
@@ -134,8 +135,8 @@ const isEmailFormat = (username) => {
 module.exports = {
   register,
   login,
-  getOneUser,
-  getAllUsers,
-  deleteUser,
-  update,
+  // getOneUser,
+  // getAllUsers,
+  // deleteUser,
+  // update,
 };

@@ -1,7 +1,7 @@
-const connection = require('../../connection-wrapper');
+const connection = require('../connection-wrapper');
 
-let ServerError = require('../../../middleware/errors/server-error');
-let ErrorType = require('../../../middleware/errors/error-type');
+let ServerError = require('../../middleware/errors/server-error');
+let ErrorType = require('../../middleware/errors/error-type');
 
 const addVacation = async (vacationAddDetails) => {
   let sql =
@@ -11,8 +11,8 @@ const addVacation = async (vacationAddDetails) => {
     vacationAddDetails.description,
     vacationAddDetails.destination,
     vacationAddDetails.image,
-    vacationAddDetails.departure_date,
-    vacationAddDetails.arrival_date,
+    vacationAddDetails.startDate,
+    vacationAddDetails.endDate,
     vacationAddDetails.price,
   ];
 
@@ -38,11 +38,29 @@ const getOneVacation = async (id) => {
   }
 };
 
-const getAllVacations = async () => {
-  let sql = 'SELECT * FROM vacations;';
+//Get all vacations by user followed
+const getAllVacations = async (userId) => {
+  //Should be fixed and used in the future
+  let sql = `
+  SELECT v.id as vacationId, v.description, v.destination, v.image,v.price, followed_vacations.user_id AS userId,
+  DATE_FORMAT(v.departure_date, '%Y/%m/%d') AS startDate,
+  DATE_FORMAT(v.arrival_date,'%Y/%m/%s') AS endDate,
+  
+  (SELECT COUNT(*) FROM followed_vacations WHERE vacation_id = v.id) AS numOfFollowers           
+  FROM vacations v
+  
+  LEFT JOIN followed_vacations  
+  ON v.id=followed_vacations.vacation_id && followed_vacations.user_id=?
+  ORDER BY  followed_vacations.user_id DESC;`;
+
+  let parameters = [
+    userId,
+  ];
+
+  // let sql = 'SELECT * FROM vacations;';
 
   try {
-    const vacationsDetails = await connection.executeWithParameters(sql);
+    const vacationsDetails = await connection.executeWithParameters(sql,parameters);
     return vacationsDetails;
   } catch (error) {
     throw new ServerError(ErrorType.GENERAL_ERROR, sql, error);
@@ -57,8 +75,8 @@ const updateVacation = async (vacationUpdateDetails, id) => {
     vacationUpdateDetails.description,
     vacationUpdateDetails.destination,
     vacationUpdateDetails.image,
-    vacationUpdateDetails.departure_date,
-    vacationUpdateDetails.arrival_date,
+    vacationUpdateDetails.startDate,
+    vacationUpdateDetails.endDate,
     vacationUpdateDetails.price,
     id,
   ];

@@ -10,56 +10,74 @@ import { updateVacation, getVacations } from '../redux/actions';
 const VacationCard = (vacation: VacationModel): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const token = sessionStorage.getItem('userToken');
 
   const isAdmin = useSelector((state: RootStore) => state.Auth.isAdmin);
-  const vacations: any = useSelector(
+  const vacations = useSelector(
     (state: RootStore) => state.Vacations.vacations
+  ) as VacationModel[];
+
+  const [isFollowed, setIsFollowed] = useState(
+    vacation.userId !== null ? true : false
   );
-
-  const [isFollowed, setIsFollowed] = useState(false);
-
-  // if (vacation.userId !== null) {
-  //   setIsFollowed(true);
-  // } else {
-  //   setIsFollowed(false);
-  // }
 
   const [error, setError] = useState<string>();
 
   const followVacation = async (vacation: VacationModel) => {
-    // let token = sessionStorage.getItem('userToken');
-
-    //Updating number of followers for this vacation
-    // const updatedVacation = { ...vacation };
-    // if (!isFollowed) {
-    //   updatedVacation.numOfFollowers++;
-    // } else {
-    //   updatedVacation.numOfFollowers--;
-    // }
-    // try {
-    //   await Axios.put(
-    //     'http://localhost:3001/vacations/' + vacation.vacationId,
-    //     updatedVacation
-    //   );
-    //   const id = vacation.vacationId;
-    //   const filteredVacations = vacations.map((vacation: VacationModel) => {
-    //     if (vacation.vacationId === id) {
-    //       vacation.numOfFollowers++;
-    //     }
-    //     return vacation;
-    //   });
-
-    //   dispatch(getVacations(filteredVacations));
-    // } catch (error) {
-    //   return new Error(error);
-    // }
-
+    //if Followed - unfollow
     if (isFollowed) {
-      setIsFollowed(false);
-    } else {
-      console.log(false);
+      try {
+        await Axios.post(
+          'http://localhost:3001/followed-vacations/unfollow',
+          vacation,
+          {
+            headers: { Authorization: token },
+          }
+        );
+        const vacationId = vacation.vacationId;
 
-      setIsFollowed(true);
+        const updatedVacations = vacations.map((vacation: VacationModel) => {
+          if (vacation.vacationId === vacationId) {
+            vacation.userId = +!null;
+            vacation.numOfFollowers--;
+          }
+          return vacation;
+        });
+        
+        dispatch(getVacations(updatedVacations));
+        setIsFollowed(false);
+      } catch (error) {
+        setError(error.response.data.error);
+      }
+      //If unfollowed - follow
+    } else {
+      //follow vacation
+      try {
+        const response = await Axios.post(
+          'http://localhost:3001/followed-vacations/follow',
+          vacation,
+          {
+            headers: { Authorization: token },
+          }
+        );
+        const vacationId = vacation.vacationId;
+
+        const userId = response.data;
+
+        const updatedVacations = vacations.map((vacation: VacationModel) => {
+          if (vacation.vacationId === vacationId) {
+            vacation.userId = userId;
+            vacation.numOfFollowers++;
+          }
+          return vacation;
+        });
+
+        dispatch(getVacations(updatedVacations));
+
+        setIsFollowed(true);
+      } catch (error) {
+        setError(error.response.data.error);
+      }
     }
   };
 
@@ -70,7 +88,9 @@ const VacationCard = (vacation: VacationModel): JSX.Element => {
 
   const deleteVacationFunction = async (vacationId: number) => {
     try {
-      await Axios.delete('http://localhost:3001/vacations/' + vacationId);
+      await Axios.delete('http://localhost:3001/vacations/' + vacationId, {
+        headers: { Authorization: token },
+      });
 
       const filteredVacations = vacations.filter((vacation: VacationModel) => {
         return vacation.vacationId !== vacationId;
@@ -78,7 +98,7 @@ const VacationCard = (vacation: VacationModel): JSX.Element => {
 
       dispatch(getVacations(filteredVacations));
     } catch (error) {
-      setError(error);
+      setError(error.response.data.error);
     }
   };
 
@@ -91,10 +111,8 @@ const VacationCard = (vacation: VacationModel): JSX.Element => {
           <b>Destination: </b>
           {vacation.destination}
         </p>
-        <p>
-          <b>Description: </b>
-          {vacation.description}
-        </p>
+        <b>Description: </b>
+        <div className='description'>{vacation.description}</div>
       </div>
       <div className='bottom-vacation-card'>
         <div className='dates-price'>
@@ -107,6 +125,8 @@ const VacationCard = (vacation: VacationModel): JSX.Element => {
             {vacation.price}
           </p>
         </div>
+      </div>
+      <div className='buttons'>
         {/* In case of regular user */}
         {!isAdmin && vacation.numOfFollowers}
         {/* Follow button */}

@@ -1,5 +1,6 @@
 const express = require('express');
-const vacationsLogic = require('../Logic/vacations-logic');
+const vacationsLogic = require('./vacations-logic');
+const cacheModule = require('../cache-module');
 
 const router = express.Router();
 
@@ -18,11 +19,14 @@ router.post('/', async (req, res, next) => {
 //Get all vacations
 router.get('/', async (req, res, next) => {
   try {
-    const vacations = await vacationsLogic.getAllVacations();
+    const userdata = cacheModule.extractUserDataFromCache(req);
+    console.log(userdata);
+    const vacations = await vacationsLogic.getAllVacations(userdata.id);
 
     res.json(vacations);
   } catch (error) {
     return next(error);
+
   }
 });
 

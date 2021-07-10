@@ -1,6 +1,6 @@
-const vacationsDao = require('../Dao/vacations-dao');
-let ServerError = require('../../../middleware/errors/server-error');
-let ErrorType = require('../../../middleware/errors/error-type');
+const vacationsDao = require('./vacations-dao');
+let ServerError = require('../../middleware/errors/server-error');
+let ErrorType = require('../../middleware/errors/error-type');
 
 const addVacation = async (vacationAddDetails) => {
   validateVacationDetails(vacationAddDetails);
@@ -8,8 +8,8 @@ const addVacation = async (vacationAddDetails) => {
   return addedVacationId;
 };
 
-const getAllVacations = async () => {
-  const vacations = await vacationsDao.getAllVacations();
+const getAllVacations = async (id) => {
+  const vacations = await vacationsDao.getAllVacations(id);
   return vacations;
 };
 
@@ -58,7 +58,7 @@ const validateVacationDetails = (vacationAddDetails) => {
     );
   }
 
-  if (vacationAddDetails.departure_date == null) {
+  if (vacationAddDetails.startDate == null) {
     throw new ServerError(
       ErrorType.INVALID_VACATION_DETAILS,
       'Departure date cant be empty',
@@ -66,7 +66,7 @@ const validateVacationDetails = (vacationAddDetails) => {
     );
   }
 
-  if (vacationAddDetails.arrival_date == null) {
+  if (vacationAddDetails.endDate == null) {
     throw new ServerError(
       ErrorType.INVALID_VACATION_DETAILS,
       'Arrival date cant be empty',

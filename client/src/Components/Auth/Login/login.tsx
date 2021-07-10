@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UsersModel } from '../UsersModel';
 import { useForm } from 'react-hook-form';
@@ -16,6 +16,8 @@ export const Login = () => {
     formState: { errors },
   } = useForm<UsersModel>();
 
+  const [error, setError] = useState<string>();
+
   const submit = async (user: UsersModel) => {
     try {
       const userData = await Axios.post(
@@ -24,10 +26,7 @@ export const Login = () => {
       );
 
       let token = 'Bearer ' + userData.data.token;
-
-      //Relevant if we refresh  the page, yet still want to stay logged in
       sessionStorage.setItem('userToken', token);
-      // Axios.defaults.headers.common['Authorization'] = token;
 
       const isAdmin = userData.data.isAdmin === 1 ? true : false;
 
@@ -35,13 +34,13 @@ export const Login = () => {
       dispatch(loginUser(token, isAdmin));
       history.push('/home');
     } catch (error) {
-      console.log(error);
-      alert('Error failed: ' + error);
+      setError(error.response.data.error);
     }
   };
 
   return (
     <div className='login'>
+      {error && <div className='alert'>{error}</div>}
       <h3>Login please:</h3>
       <form onSubmit={handleSubmit(submit)}>
         <input
@@ -57,6 +56,7 @@ export const Login = () => {
           placeholder='Password: '
           type='password'
           required
+          autoComplete="on"
           {...register('password', {
             required: true,
             minLength: {

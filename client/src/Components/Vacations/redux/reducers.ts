@@ -26,6 +26,9 @@ export const vacationsReducer = (
     case VacationsActionType.UPDATE_VACATION:
       newAppState.updateVacation = action.updateVacation;
       return newAppState;
+    case VacationsActionType.LOG_OUT:
+      newAppState.vacations = action.payload;
+      return newAppState;
     default:
       return newAppState;
   }
