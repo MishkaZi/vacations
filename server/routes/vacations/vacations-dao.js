@@ -80,9 +80,11 @@ const updateVacation = async (vacationUpdateDetails, id) => {
 };
 
 const deleteVacation = async (id) => {
-  let sql = 'DELETE FROM vacations WHERE vacations.id=?;';
+  let sql = 'DELETE FROM vacations v WHERE v.id=?;';
+  let sql2 = 'DELETE FROM followed_vacations fv WHERE fv.vacation_id=?;';
 
   try {
+    await connection.executeWithParameters(sql2, id);
     const deletedId = await connection.executeWithParameters(sql, id);
     return deletedId.insertId;
   } catch (error) {
