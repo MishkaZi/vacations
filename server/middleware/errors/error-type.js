@@ -21,13 +21,13 @@ let ErrorType = {
     id: 4,
     httpCode: 603,
     message: 'Invalid user name or password',
-    isShowStackTrace: true,
+    isShowStackTrace: false,
   },
   INVALID_VACATION_DETAILS: {
     id: 5,
     httpCode: 604,
     message: 'Invalid one or more vacation details',
-    isShowStackTrace: true,
+    isShowStackTrace: false,
   },
 };
 
